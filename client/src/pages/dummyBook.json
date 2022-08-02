@@ -1,0 +1,142 @@
+[
+    {
+      "author": "Chinua Achebe",
+      "country": "Nigeria",
+      "imageLink": "images/things-fall-apart.jpg",
+      "language": "English",
+      "link": "https://img.thriftbooks.com/api/images/m/2ffc8dbe5f31ccb90b5b5b96370dfbf23d00b677.jpg",
+      "pages": 209,
+      "title": "Things Fall Apart",
+      "year": 1958
+    },
+    {
+      "author": "Hans Christian Andersen",
+      "country": "Denmark",
+      "imageLink": "images/fairy-tales.jpg",
+      "language": "Danish",
+      "link": "https://img.thriftbooks.com/api/images/s/59f099d934df1125c88b48f204d2ae94972c73ff.jpg",
+      "pages": 784,
+      "title": "Fairy tales",
+      "year": 1836
+    },
+    {
+      "author": "Dante Alighieri",
+      "country": "Italy",
+      "imageLink": "images/the-divine-comedy.jpg",
+      "language": "Italian",
+      "link": "https://dcbookstore.com/uploads/product/images/26349807292169-1in.jpg",
+      "pages": 928,
+      "title": "The Divine Comedy",
+      "year": 1315
+    },
+    {
+      "author": "Unknown",
+      "country": "Sumer and Akkadian Empire",
+      "imageLink": "images/the-epic-of-gilgamesh.jpg",
+      "language": "Akkadian",
+      "link": "https://dcbookstore.com/uploads/product/images/47630599133686-The-Metamorphosis-and-Other-Stories.jpg",
+      "pages": 160,
+      "title": "The Epic Of Gilgamesh",
+      "year": -1700
+    },
+    {
+      "author": "Unknown",
+      "country": "Achaemenid Empire",
+      "imageLink": "images/the-book-of-job.jpg",
+      "language": "Hebrew",
+      "link": "https://dcbookstore.com/uploads/product/images/14838103428564-I-Too-Had-a-Dream.jpg",
+      "pages": 176,
+      "title": "The Book Of Job",
+      "year": -600
+    },
+    {
+      "author": "Unknown",
+      "country": "India/Iran/Iraq/Egypt/Tajikistan",
+      "imageLink": "images/one-thousand-and-one-nights.jpg",
+      "language": "Arabic",
+      "link": "https://dcbookstore.com/uploads/product/images/66543985135836-A-LITTLE-PRJINCES.jpg",
+      "pages": 288,
+      "title": "One Thousand and One Nights",
+      "year": 1200
+    },
+    {
+      "author": "Unknown",
+      "country": "Iceland",
+      "imageLink": "images/njals-saga.jpg",
+      "language": "Old Norse",
+      "link": "https://dcbookstore.com/uploads/product/images/50601942977397-BIRIYANI-min-3-min.png",
+      "pages": 384,
+      "title": "Nj\u00e1l's Saga",
+      "year": 1350
+    },
+    {
+      "author": "Jane Austen",
+      "country": "United Kingdom",
+      "imageLink": "images/pride-and-prejudice.jpg",
+      "language": "English",
+      "link": "https://dcbookstore.com/uploads/product/images/59494114691518-Twelve-Red-Herrings.jpg",
+      "pages": 226,
+      "title": "Pride and Prejudice",
+      "year": 1813
+    },
+    {
+      "author": "Honor\u00e9 de Balzac",
+      "country": "France",
+      "imageLink": "images/le-pere-goriot.jpg",
+      "language": "French",
+      "link": "https://dcbookstore.com/uploads/product/images/48902337127122-Modern-Hindi-Short-Stories.jpg",
+      "pages": 443,
+      "title": "Le P\u00e8re Goriot",
+      "year": 1835
+    },
+    {
+      "author": "Samuel Beckett",
+      "country": "Republic of Ireland",
+      "imageLink": "images/molloy-malone-dies-the-unnamable.jpg",
+      "language": "French, English",
+      "link": "https://dcbookstore.com/uploads/product/images/5923500206457-01.jpg",
+      "pages": 256,
+      "title": "Molloy, Malone Dies, The Unnamable, the trilogy",
+      "year": 1952
+    },
+    {
+      "author": "Giovanni Boccaccio",
+      "country": "Italy",
+      "imageLink": "https://dcbookstore.com/uploads/product/images/66868992285337-Z.jpg",
+      "language": "Italian",
+      "link": "https://dcbookstore.com/uploads/product/images/66868992285337-Z.jpg",
+      "pages": 1024,
+      "title": "The Decameron",
+      "year": 1351
+    },
+    {
+      "author": "Jorge Luis Borges",
+      "country": "Argentina",
+      "imageLink": "images/ficciones.jpg",
+      "language": "Spanish",
+      "link": "https://dcbookstore.com/uploads/product/images/bk_9135.jpg",
+      "pages": 224,
+      "title": "Ficciones",
+      "year": 1965
+    },
+    {
+      "author": "Emily Bront\u00eb",
+      "country": "United Kingdom",
+      "imageLink": "images/wuthering-heights.jpg",
+      "language": "English",
+      "link": "https://dcbookstore.com/uploads/product/images/76691213527959-Why-Not-Me.jpg",
+      "pages": 342,
+      "title": "Wuthering Heights",
+      "year": 1847
+    },
+    {
+      "author": "Albert Camus",
+      "country": "Algeria, French Empire",
+      "imageLink": "images/l-etranger.jpg",
+      "language": "French",
+      "link": "https://dcbookstore.com/uploads/product/images/22140239077819-The-Sun-and-Her-Flowers.jpg",
+      "pages": 185,
+      "title": "The Stranger",
+      "year": 1942
+    }
+]

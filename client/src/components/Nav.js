@@ -1,46 +1,72 @@
-import React,{useState} from 'react'
+import React,{useState,useEffect} from 'react'
+import { Link ,useNavigate} from 'react-router-dom';
+import $ from 'jquery';
 
 function Nav() {
-  const [searchitem,setSearchitem]=useState("")
+	const navigate=useNavigate()
+	const [token,setToken]=useState(localStorage.getItem("token"));
+	const [count,setCount]=useState("")
+	const [cartdata, setCartdata] = useState([])
+    const [total,setTotal]=useState(0)
+	const [searchitem,setSearchitem]=useState("")
+
+useEffect(() => {
+	if(token){
+		fetch('http://localhost:5000/cart/viewCartItem', {
+		method: 'GET',
+		headers: {
+			'Content-Type': 'application/json',
+			'Authorization': 'Bearer ' + token
+		},
+	}).then(res => res.json())
+	.then((data) => {
+		console.log("Result========", data)
+		if (data.success == true) {
+			setCartdata(data.data)
+			console.log(cartdata);
+			const cartcount=data.data.length;
+			const newTotal = cartdata.reduce((total, cartItem) => {
+				return total + cartItem.qty * cartItem.price;
+			  }, 0);
+			  setTotal(newTotal);
+			console.log(cartcount);
+			setCount(cartcount)
+			console.log(count);
+			// setCartdata(data.data)
+			// console.log(cartdata);
+			// const newTotal = cartdata.reduce((total, cartItem) => {
+			// 	return total + cartItem.qty * cartItem.price;
+			//   }, 0);
+			//   setTotal(newTotal);
+	   }
+	})
+}
+}, [token])
+
+	const logout=()=>
+	{
+		localStorage.clear();
+		window.sessionStorage.clear();
+		navigate("/")
+	
+	}
 	const addvalue=(e)=>{
 		console.log(e.target.value);
 		setSearchitem(e.target.value)
 	   console.log(searchitem);
 		}
+	// window.onunload = () => {
+	// 	// Clear the local storage
+	// 	window.localStorage.clear()
+	// 	}
   return (
     < >
-
 <header className="header-v4">
 		{/* <!-- Header desktop --> */}
 		<div className="container-menu-desktop">
-			{/* <!-- Topbar --> */}
-			<div className="top-bar">
-				<div className="content-topbar flex-sb-m h-full container">
-					<div className="left-top-bar">
-						Free shipping for standard order over $100
-					</div>
+			
 
-					<div className="right-top-bar flex-w h-full">
-						<a href="#" className="flex-c-m trans-04 p-lr-25">
-							Help & FAQs
-						</a>
-
-						<a href="#" className="flex-c-m trans-04 p-lr-25">
-							My Account
-						</a>
-
-						<a href="#" className="flex-c-m trans-04 p-lr-25">
-							EN
-						</a>
-
-						<a href="#" className="flex-c-m trans-04 p-lr-25">
-							USD
-						</a>
-					</div>
-				</div>
-			</div>
-
-			<div className="wrap-menu-desktop how-shadow1">
+			<div className="wrap-menu-desktop how-shadow1" style={{top:"0px"}}>
 				<nav className="limiter-menu-desktop container">
 					
 					{/* <!-- Logo desktop -->		 */}
@@ -52,16 +78,16 @@ function Nav() {
 					<div className="menu-desktop">
 						<ul className="main-menu">
 							<li>
-								<a href="index.html">Home</a>
+								<a href="/">Home</a>
 								<ul className="sub-menu">
-									<li><a href="index.html">Homepage 1</a></li>
+									<li><a href="/addBook">Add Book</a></li>
 									<li><a href="home-02.html">Homepage 2</a></li>
 									<li><a href="home-03.html">Homepage 3</a></li>
 								</ul>
 							</li>
 
 							<li className="active-menu">
-								<a href="product.html">Shop</a>
+								<a href="#">Shop</a>
 							</li>
 
 							<li className="label1" data-label1="hot">
@@ -69,16 +95,17 @@ function Nav() {
 							</li>
 
 							<li>
-								<a href="blog.html">Blog</a>
+								<a href="register">Register</a>
 							</li>
 
 							<li>
-								<a href="about.html">About</a>
+								<a href="#">About</a>
 							</li>
 
 							<li>
-								<a href="contact.html">Contact</a>
+								{!token?<a href="/login">login</a>:<a onClick={logout}>Logout</a>}
 							</li>
+							
 						</ul>
 					</div>	
 
@@ -88,13 +115,16 @@ function Nav() {
 							<i className="zmdi zmdi-search"></i>
 						</div>
 
-						<div className="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti js-show-cart" data-notify="2">
-							<i className="zmdi zmdi-shopping-cart"></i>
+						<div className="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti js-show-cart" data-notify={!count?0:count}>
+						
+							<i className="zmdi zmdi-shopping-cart" style={{color:"black"}}></i>
+					
 						</div>
+						{!token?null:
+						<a href="/userViewOrderDetails" className="dis-block icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10">
+							<i class="zmdi zmdi-case-check"></i>
 
-						<a href="#" className="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti" data-notify="0">
-							<i className="zmdi zmdi-favorite-outline"></i>
-						</a>
+						</a>}
 					</div>
 				</nav>
 			</div>	
@@ -104,7 +134,7 @@ function Nav() {
 		<div className="wrap-header-mobile">
 			{/* <!-- Logo moblie -->		 */}
 			<div className="logo-mobile">
-				<a href="index.html"><img src="assets/images/icons/logo-01.png" alt="IMG-LOGO"/></a>
+				<a href="/"><img src="assets/images/icons/logo-01.png" alt="IMG-LOGO"/></a>
 			</div>
 
 			{/* <!-- Icon header --> */}
@@ -116,10 +146,12 @@ function Nav() {
 				<div className="icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10 icon-header-noti js-show-cart" data-notify="2">
 					<i className="zmdi zmdi-shopping-cart"></i>
 				</div>
+				{!token?null:
+				<a href="/userViewOrderDetails" className="dis-block icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10">
+					<i class="zmdi zmdi-case-check"></i>
 
-				<a href="#" className="dis-block icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10 icon-header-noti" data-notify="0">
-					<i className="zmdi zmdi-favorite-outline"></i>
 				</a>
+				}
 			</div>
 
 			{/* <!-- Button show menu --> */}
@@ -129,43 +161,16 @@ function Nav() {
 				</span>
 			</div>
 		</div>
-
-
+		
 		{/* <!-- Menu Mobile --> */}
 		<div className="menu-mobile">
-			<ul className="topbar-mobile">
-				<li>
-					<div className="left-top-bar">
-						Free shipping for standard order over $100
-					</div>
-				</li>
-
-				<li>
-					<div className="right-top-bar flex-w h-full">
-						<a href="#" className="flex-c-m p-lr-10 trans-04">
-							Help & FAQs
-						</a>
-
-						<a href="#" className="flex-c-m p-lr-10 trans-04">
-							My Account
-						</a>
-
-						<a href="#" className="flex-c-m p-lr-10 trans-04">
-							EN
-						</a>
-
-						<a href="#" className="flex-c-m p-lr-10 trans-04">
-							USD
-						</a>
-					</div>
-				</li>
-			</ul>
+			
 
 			<ul className="main-menu-m">
 				<li>
-					<a href="index.html">Home</a>
+					<a href="/">Home</a>
 					<ul className="sub-menu-m">
-						<li><a href="index.html">Homepage 1</a></li>
+						<li><a href="addBook">Add Book</a></li>
 						<li><a href="home-02.html">Homepage 2</a></li>
 						<li><a href="home-03.html">Homepage 3</a></li>
 					</ul>
@@ -191,7 +196,7 @@ function Nav() {
 				</li>
 
 				<li>
-					<a href="contact.html">Contact</a>
+					<a href="/login">login</a>
 				</li>
 			</ul>
 		</div>
@@ -213,7 +218,7 @@ function Nav() {
 		</div>
 	</header>
 
-	{/* <!-- Cart --> */}
+
 	<div className="wrap-header-cart js-panel-cart">
 		<div className="s-full js-hide-cart"></div>
 
@@ -230,53 +235,24 @@ function Nav() {
 			
 			<div className="header-cart-content flex-w js-pscroll">
 				<ul className="header-cart-wrapitem w-full">
+				{cartdata && cartdata.map((data, i) => (
+				
 					<li className="header-cart-item flex-w flex-t m-b-12">
 						<div className="header-cart-item-img">
-							<img src="assets/images/item-cart-01.jpg" alt="IMG"/>
+							<img src={`./upload/${data?.cartData?.image}`} alt="IMG"/>
 						</div>
 
 						<div className="header-cart-item-txt p-t-8">
 							<a href="#" className="header-cart-item-name m-b-18 hov-cl1 trans-04">
-								White Shirt Pleat
+							{data?.cartData?.title}
 							</a>
 
 							<span className="header-cart-item-info">
-								1 x $19.00
+							{data?.qty} x ₹ {data?.price}
 							</span>
 						</div>
 					</li>
-
-					<li className="header-cart-item flex-w flex-t m-b-12">
-						<div className="header-cart-item-img">
-							<img src="assets/images/item-cart-02.jpg" alt="IMG"/>
-						</div>
-
-						<div className="header-cart-item-txt p-t-8">
-							<a href="#" className="header-cart-item-name m-b-18 hov-cl1 trans-04">
-								Converse All Star
-							</a>
-
-							<span className="header-cart-item-info">
-								1 x $39.00
-							</span>
-						</div>
-					</li>
-
-					<li className="header-cart-item flex-w flex-t m-b-12">
-						<div className="header-cart-item-img">
-							<img src="assets/images/item-cart-03.jpg" alt="IMG"/>
-						</div>
-
-						<div className="header-cart-item-txt p-t-8">
-							<a href="#" className="header-cart-item-name m-b-18 hov-cl1 trans-04">
-								Nixon Porter Leather
-							</a>
-
-							<span className="header-cart-item-info">
-								1 x $17.00
-							</span>
-						</div>
-					</li>
+   				))}
 				</ul>
 				
 				<div className="w-full">
@@ -285,11 +261,11 @@ function Nav() {
 					</div>
 
 					<div className="header-cart-buttons flex-w w-full">
-						<a href="shoping-cart.html" className="flex-c-m stext-101 cl0 size-107 bg3 bor2 hov-btn3 p-lr-15 trans-04 m-r-8 m-b-10">
+						<a href="/cart" className="flex-c-m stext-101 cl0 size-107 bg3 bor2 hov-btn3 p-lr-15 trans-04 m-r-8 m-b-10">
 							View Cart
 						</a>
 
-						<a href="shoping-cart.html" className="flex-c-m stext-101 cl0 size-107 bg3 bor2 hov-btn3 p-lr-15 trans-04 m-b-10">
+						<a href="/userdeliverydetails" className="flex-c-m stext-101 cl0 size-107 bg3 bor2 hov-btn3 p-lr-15 trans-04 m-b-10">
 							Check Out
 						</a>
 					</div>
@@ -297,6 +273,10 @@ function Nav() {
 			</div>
 		</div>
 	</div>
+
+		
+	
+		
   </>
   )
 }
