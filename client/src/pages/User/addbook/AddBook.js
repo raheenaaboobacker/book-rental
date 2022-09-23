@@ -3,16 +3,30 @@ import Footer from '../../../components/Footer'
 import Nav from '../../../components/Nav'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios';
+import { useEffect } from 'react'
 
 function AddBook() {
     const navigate=useNavigate();
     const [bookdata,setBookdata]=useState({ })
     const [file,setFile]=useState([" "])
     const [token,setToken]=useState(localStorage.getItem("token"))
+    const [category, setCategory] = useState([])
 
 
 
-    const handleInputChange=(e)=>{
+    useEffect(()=>{
+        axios.get("http://localhost:5000/book/view-category")
+        .then((result)=>{
+          console.log(result.data);
+          if(result.data.success==true){
+            setCategory(result.data.data)
+            // navigate('/admindashboard')
+          }
+        
+        })
+      },[])
+
+      const handleInputChange=(e)=>{
         const {name,value}=e.target
         setBookdata({
             ...bookdata,
@@ -20,6 +34,7 @@ function AddBook() {
         })
        console.log(bookdata);
     }
+
 
     const validation=(e)=>{
        e.preventDefault();
@@ -51,10 +66,10 @@ function AddBook() {
     
             alert(data.message)
             
-            // navigate('/userdashboard')
+            navigate('/userViewBook')
         }
         else{
-            alert("Failed!")
+            alert("auth failed please login")
         }
  })
     }
@@ -99,10 +114,9 @@ function AddBook() {
 							<select className="stext-111 cl2 plh3 size-116 p-l-62 p-r-30" type="text" name="category" placeholder="Choose Category"
                               onChange={handleInputChange} value={bookdata.category} >
                             <option defaultValue>Choose Category</option>
-                                <option value="1">Noval</option>
-                                <option value="2">Magazine</option>
-                                <option value="3">Short Story</option>
-                                <option value="4">autobiography</option>
+                            {category&&category.map(item=>(
+                                <option value={item.category}>{item.category}</option>
+                            ))}
                             </select>
 							<i className="how-pos4 pointer-none zmdi zmdi-collection-item"></i>
 						</div>
@@ -112,8 +126,15 @@ function AddBook() {
 							<i className="how-pos4 pointer-none zmdi zmdi-account material-icons-name"></i>
 						</div>
                         <div className="bor8 m-b-20 how-pos4-parent">
-							<input className="stext-111 cl2 plh3 size-116 p-l-62 p-r-30" type="text" name="language" placeholder="Language"
-                              onChange={handleInputChange} value={bookdata.language} />
+                        <select className="stext-111 cl2 plh3 size-116 p-l-62 p-r-30" type="text" name="language" placeholder="Choose language"
+                              onChange={handleInputChange} value={bookdata.category} >
+                            <option defaultValue>Choose Language</option>
+                            
+                            <option value="Malayalam">Malayalam</option>
+                            <option value="English">English</option>
+                           
+                            </select>
+							
 							<i className="how-pos4 pointer-none zmdi zmdi-crop-square"></i>
 						</div>
                        

@@ -19,6 +19,19 @@ import SingleBook from './pages/SingleBook';
 import Payment from './pages/User/Payment/Payment';
 import UserDeliveryDetails from './pages/User/Payment/UserDeliveryDetails';
 import OrderDetails from './pages/User/OrderDetails';
+import ViewUsers from './pages/Admin/ViewUsers';
+import ViewBook from './pages/Admin/ViewBook';
+import UserViewBooks from './pages/User/UserViewBooks';
+import AddBookCategory from './pages/Admin/AddBookCategory';
+import ViewRentBook from './pages/User/ViewRentBook';
+import RentPayment from './pages/User/RentPayment';
+import ViewEbook from './pages/User/ViewEbook';
+import AdminAddBook from './pages/Admin/AdminAddBook';
+import VolunteerDashboard from './pages/volunteer/VolunteerDashboard';
+import VolunteerReg from './pages/volunteer/VolunteerReg';
+import ViewVolunteer from './pages/Admin/ViewVolunteer';
+import ViewOrderRequest from './pages/volunteer/ViewOrderRequest';
+import ViewMessage from './pages/Admin/ViewMessage';
 
 function App() {
 	useEffect(() => {
@@ -126,7 +139,7 @@ function App() {
 				<Route path='/login' element={<Login/>}/>
 				<Route path='/register' element={<Register/>}/>
 				<Route path='/cart' element={<Cart/>}/>
-				<Route path='/productDetails' element={<ProductDetails/>}/>
+				<Route path='/productDetails/:id' element={<ProductDetails/>}/>
 				<Route path='/addBook' element={<AddBook/>}/>
 				<Route path='/*' element={<Notfount/>}/>
 				<Route path='/contact' element={<Contact/>}/>
@@ -134,10 +147,20 @@ function App() {
 				<Route path='/payment' element={<Payment/>}/>
 				<Route path='/userdeliverydetails' element={<UserDeliveryDetails/>}/>
 				<Route path='/userViewOrderDetails' element={<OrderDetails/>}/>
-				{/* <Route path='/' element={<Home/>}/> */}
-				{/* <Route path='/' element={<Home/>}/> */}
-				{/* <Route path='/' element={<Home/>}/> */}
-				{/* <Route path='/' element={<Home/>}/> */}
+				<Route path='/viewUser' element={<ViewUsers/>}/>
+				<Route path='/viewBook' element={<ViewBook/>}/>
+				<Route path='/addCategory' element={<AddBookCategory/>}/>
+
+				<Route path='/userViewBook' element={<UserViewBooks/>}/>
+				<Route path='/viewRentBook/:pdf' element={<ViewRentBook/>}/>
+				<Route path='/rentPayment' element={<RentPayment/>}/>
+				<Route path='/viewRentbooks' element={<ViewEbook/>}/>
+				<Route path='/adminAddBook' element={<AdminAddBook/>}/>
+				<Route path='/volunteerDashboard' element={<VolunteerDashboard/>}/>
+				<Route path='/volunteerReg' element={<VolunteerReg/>}/>
+				<Route path='/viewVolunteer' element={<ViewVolunteer/>}/>
+				<Route path='/volunteerViewRequest' element={<ViewOrderRequest/>}/>
+				<Route path='/viewMessage' element={<ViewMessage/>}/>
 
 			</Routes>
 		</BrowserRouter>

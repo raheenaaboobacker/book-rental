@@ -3075,6 +3075,7 @@ input.num-product::-webkit-inner-spin-button {
 }
 
 .hov-img0 img{
+  height: 200px;
   width: 100%;
   -webkit-transition: transform 0.9s ease;
   -o-transition: transform 0.9s ease;

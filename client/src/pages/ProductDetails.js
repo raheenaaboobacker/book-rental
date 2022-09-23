@@ -4,11 +4,25 @@ import { useParams } from 'react-router-dom'
 import Carouselproduct from '../components/Carouselproduct'
 import Footer from '../components/Footer'
 import Nav from '../components/Nav'
+import swal from 'sweetalert';
+import {useNavigate } from 'react-router-dom';
 
 function ProductDetails() {
+	const navigate=useNavigate()
+	const token=localStorage.getItem("token")
+	let [num, setNum]= useState(1);
 	const [temp,setTemp]=useState([])
-	// const {id}=useParams()
-	const id="62df4a8e2ca0596e8dfbe9f1"
+	const {id}=useParams()
+	const [date,setDate]=useState([])
+	var dateObj = new Date();
+    var month = dateObj.getUTCMonth() + 1;
+    var day = dateObj.getUTCDate();
+    var year = dateObj.getUTCFullYear();
+	if(month < 10)
+	month = '0' + month.toString();
+    var newdate = year + "-" + month + "-" + day;
+    console.log(newdate);
+
 	console.log(id);
 	useEffect(() => {
 		axios.get(`http://localhost:5000/book/singleitem/${id}`).then((response)=>{
@@ -19,6 +33,79 @@ function ProductDetails() {
 		})
 	}, [])
 	
+
+	const addToCart=(id,price)=>{
+		console.log(id);
+		console.log(num);
+		console.log(price);
+		console.log(temp);
+		const cdata={
+			bookId:id,
+			qty:num,
+			price:price
+		}
+		console.log(cdata);
+		if(!token) {const el = document.createElement('div')
+		el.innerHTML = " <a href='/login'>login here</a>"
+
+		swal({
+			title:"Please Login",
+			content: el,
+		  })}else{
+		fetch('http://localhost:5000/cart/addCartItem', {
+        method: 'POST',
+        body: JSON.stringify(cdata),
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization':'Bearer '+token
+        },
+    })
+    .then(res => res.json())
+    .then((data) => {
+        console.log("Result========",data)
+        if(data.success==true)
+        {
+          
+            swal(data.message)
+            
+            navigate('/cart')
+        }
+        else{
+			const el = document.createElement('div')
+            el.innerHTML = " <a href='/login'>login here</a>"
+
+            swal({
+				title:data.message,
+				content: el,
+			  })
+        }
+ })
+}	
+
+	} 
+	const rentPdf=(e)=>{
+		e.preventDefault()
+		var date1 = new Date(newdate);
+		var date2 = new Date(date);
+		  
+		var Difference_In_Time = date2.getTime() - date1.getTime();
+		  
+		var diffDays = Difference_In_Time / (1000 * 3600 * 24);
+		  
+			console.log(typeof(date));
+			console.log(newdate);
+		console.log(diffDays);
+			const data={
+		
+				id:temp[0]?._id,
+				price:temp[0]?.pdfprice*diffDays,
+				duedate:date
+			}
+			console.log(data);
+			navigate('/rentPayment' , {state: data})
+		
+		}
+
   return (
     <div>
         <Nav/>
@@ -34,7 +121,7 @@ function ProductDetails() {
 							<div className="slick3 gallery-lb">
 								<div className="item-slick3" data-thumb="images/product-detail-01.jpg">
 									<div className="wrap-pic-w pos-relative">
-										<img src={`./upload/${temp[0]?.image}`} alt="IMG-PRODUCT"/>
+										<img src={`/upload/${temp[0]?.image}`} alt="IMG-PRODUCT"/>
 
 										<a className="flex-c-m size-108 how-pos1 bor0 fs-16 cl10 bg0 hov-btn3 trans-04" href="images/product-detail-01.jpg">
 											<i className="fa fa-expand"></i>
@@ -92,7 +179,15 @@ function ProductDetails() {
 									</div>
 								</div>
 								
+								<div className="flex-w flex-r-m p-b-10">
+									<div className="size-203 flex-c-m respon6">
+										price for e-book/day
+									</div>
 
+									<div className="size-204 respon6-next">										
+											<h6>{temp[0]?.pdfprice}</h6>									
+									</div>
+								</div>
 							<div className="flex-w flex-r-m p-b-10">
 								<div className="size-204 flex-w flex-m respon6-next">
 									<div className="wrap-num-product flex-w m-r-20 m-tb-10">
@@ -107,10 +202,30 @@ function ProductDetails() {
 										</div>
 									</div>
 
-									<button className="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 js-addcart-detail">
+									<button onClick={()=>{addToCart(temp[0]._id,temp[0].price)}} className="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 js-addcart-detail">
 										Add to cart
 									</button>
-								</div>
+								
+								{temp[0]?.pdf=="null"?null:<>
+										<form onSubmit={rentPdf}>
+
+										<div style={{marginLeft:"-90px"}} className="flex-w flex-r-m p-b-10">
+											<div className="size-203 flex-c-m respon6">
+												Due date of ebook
+											</div>
+
+											<div className="size-204 respon6-next">										
+											<input type="date"  name="date"  min={newdate}
+                                     onChange={(e)=>{setDate(e.target.value)}} value={date}  required/>
+										
+											</div>
+										</div>
+										<button type='submit' style={{marginTop:"5px"}}  className="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04">
+											Rent ebook
+										</button>
+										</form>
+										</>}
+									</div>
 							</div>	
 						</div>
 
@@ -148,16 +263,14 @@ function ProductDetails() {
 							<a className="nav-link" data-toggle="tab" href="#information" role="tab">Additional information</a>
 						</li>
 
-						<li className="nav-item p-b-10">
-							<a className="nav-link" data-toggle="tab" href="#reviews" role="tab">Reviews (1)</a>
-						</li>
+						
 					</ul>
 
 					<div className="tab-content p-t-43">
 						<div className="tab-pane fade show active" id="description" role="tabpanel">
 							<div className="how-pos2 p-lr-15-md">
 								<p className="stext-102 cl6">
-									Aenean sit amet gravida nisi. Nam fermentum est felis, quis feugiat nunc fringilla sit amet. Ut in blandit ipsum. Quisque luctus dui at ante aliquet, in hendrerit lectus interdum. Morbi elementum sapien rhoncus pretium maximus. Nulla lectus enim, cursus et elementum sed, sodales vitae eros. Ut ex quam, porta consequat interdum in, faucibus eu velit. Quisque rhoncus ex ac libero varius molestie. Aenean tempor sit amet orci nec iaculis. Cras sit amet nulla libero. Curabitur dignissim, nunc nec laoreet consequat, purus nunc porta lacus, vel efficitur tellus augue in ipsum. Cras in arcu sed metus rutrum iaculis. Nulla non tempor erat. Duis in egestas nunc.
+								{temp[0]?.desc}
 								</p>
 							</div>
 						</div>
@@ -168,65 +281,64 @@ function ProductDetails() {
 									<ul className="p-lr-28 p-lr-15-sm">
 										<li className="flex-w flex-t p-b-7">
 											<span className="stext-102 cl3 size-205">
-												Weight
+											title
 											</span>
 
 											<span className="stext-102 cl6 size-206">
-												0.79 kg
+											{temp[0]?.title}
 											</span>
 										</li>
 
 										<li className="flex-w flex-t p-b-7">
 											<span className="stext-102 cl3 size-205">
-												Dimensions
+											price
 											</span>
 
 											<span className="stext-102 cl6 size-206">
-												110 x 33 x 100 cm
+											₹ {temp[0]?.price}
 											</span>
 										</li>
 
 										<li className="flex-w flex-t p-b-7">
 											<span className="stext-102 cl3 size-205">
-												Materials
+											Publiser
 											</span>
 
 											<span className="stext-102 cl6 size-206">
-												60% cotton
+											{temp[0]?.publisher}											</span>
+										</li>
+
+										<li className="flex-w flex-t p-b-7">
+											<span className="stext-102 cl3 size-205">
+											Pages
+											</span>
+
+											<span className="stext-102 cl6 size-206">
+											{temp[0]?.pages}
 											</span>
 										</li>
 
 										<li className="flex-w flex-t p-b-7">
 											<span className="stext-102 cl3 size-205">
-												Color
+											Language
 											</span>
 
 											<span className="stext-102 cl6 size-206">
-												Black, Blue, Grey, Green, Red, White
-											</span>
-										</li>
-
-										<li className="flex-w flex-t p-b-7">
-											<span className="stext-102 cl3 size-205">
-												Size
-											</span>
-
-											<span className="stext-102 cl6 size-206">
-												XL, L, M, S
+											{temp[0]?.language}
 											</span>
 										</li>
 									</ul>
 								</div>
 							</div>
 						</div>
-
+{/* 
 						<div className="tab-pane fade" id="reviews" role="tabpanel">
 							<div className="row">
 								<div className="col-sm-10 col-md-8 col-lg-6 m-lr-auto">
 									<div className="p-b-30 m-lr-15-sm">
 										<div className="flex-w flex-t p-b-68">
 											<div className="wrap-pic-s size-109 bor0 of-hidden m-r-18 m-t-6">
-												<img src="assets/images/avatar-01.jpg" alt="AVATAR"/>
+												<img src="/assets/images/avatar-01.jpg" alt="AVATAR"/>
 											</div>
 
 											<div className="size-207">
@@ -298,7 +410,7 @@ function ProductDetails() {
 									</div>
 								</div>
 							</div>
-						</div>
+						</div> */}
 					</div>
 				</div>
 			</div>
@@ -316,159 +428,6 @@ function ProductDetails() {
 	</section>
 
 
-	<section className="sec-relate-product bg0 p-t-45 p-b-105">
-		<div className="container">
-			<div className="p-b-45">
-				<h3 className="ltext-106 cl5 txt-center">
-					Related Products
-				</h3>
-			</div>
-			<div className="row isotope-grid">
-				<div className="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item women">
-					{/* <!-- Block2 --> */}
-					<div className="block2">
-						<div className="block2-pic hov-img0">
-							<img src="https://n3.sdlcdn.com/imgs/k/f/6/230X258_sharpened/Twisted-Love-Special-Edition-Paperback-SDL319774557-1-51910.webp" alt="IMG-PRODUCT"/>
-
-							{/* <a onClick={() => setShow(true)} style={{backgroundColr:"black",color:"white"}} className="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal1">
-								Quick View
-							</a> */}
-						</div>
-
-						<div className="block2-txt flex-w flex-t p-t-14">
-							<div className="block2-txt-child1 flex-col-l ">
-								<a href="product-detail.html" className="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
-									Esprit Ruffle Shirt
-								</a>
-
-								<span className="stext-105 cl3">
-									$16.64
-								</span>
-							</div>
-
-							<div className="block2-txt-child2 flex-r p-t-3">
-								<a href="#" className="btn-addwish-b2 dis-block pos-relative js-addwish-b2">
-									<img className="icon-heart1 dis-block trans-04" src="assets/images/icons/icon-heart-01.png" alt="ICON"/>
-									<img className="icon-heart2 dis-block trans-04 ab-t-l" src="assets/images/icons/icon-heart-02.png" alt="ICON"/>
-								</a>
-							</div>
-						</div>
-					</div>
-				</div>
-
-				<div className="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item women">
-					{/* <!-- Block2 --> */}
-					<div className="block2">
-						<div className="block2-pic hov-img0">
-							<img src="https://n2.sdlcdn.com/imgs/b/e/y/large/Wings-Of-Fire-SDL997469457-1-b9984.jpg" alt="IMG-PRODUCT"/>
-
-							<a href="#" className="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal1">
-								Quick View
-							</a>
-						</div>
-
-						<div className="block2-txt flex-w flex-t p-t-14">
-							<div className="block2-txt-child1 flex-col-l ">
-								<a href="product-detail.html" className="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
-									Herschel supply
-								</a>
-
-								<span className="stext-105 cl3">
-									$35.31
-								</span>
-							</div>
-
-							<div className="block2-txt-child2 flex-r p-t-3">
-								<a href="#" className="btn-addwish-b2 dis-block pos-relative js-addwish-b2">
-									<img className="icon-heart1 dis-block trans-04" src="assets/images/icons/icon-heart-01.png" alt="ICON"/>
-									<img className="icon-heart2 dis-block trans-04 ab-t-l" src="assets/images/icons/icon-heart-02.png" alt="ICON"/>
-								</a>
-							</div>
-						</div>
-					</div>
-				</div>
-
-				<div className="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item men">
-					{/* <!-- Block2 --> */}
-					<div className="block2">
-						<div className="block2-pic hov-img0">
-							<img src="https://n3.sdlcdn.com/imgs/a/5/j/large/I-Am-Malala-SDL628390932-1-16df0.jpg" alt="IMG-PRODUCT"/>
-
-							<a href="#" className="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal1">
-								Quick View
-							</a>
-						</div>
-
-						<div className="block2-txt flex-w flex-t p-t-14">
-							<div className="block2-txt-child1 flex-col-l ">
-								<a href="product-detail.html" className="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
-									Only Check Trouser
-								</a>
-
-								<span className="stext-105 cl3">
-									$25.50
-								</span>
-							</div>
-
-							<div className="block2-txt-child2 flex-r p-t-3">
-								<a href="#" className="btn-addwish-b2 dis-block pos-relative js-addwish-b2">
-									<img className="icon-heart1 dis-block trans-04" src="assets/images/icons/icon-heart-01.png" alt="ICON"/>
-									<img className="icon-heart2 dis-block trans-04 ab-t-l" src="assets/images/icons/icon-heart-02.png" alt="ICON"/>
-								</a>
-							</div>
-						</div>
-					</div>
-				</div>
-
-				<div className="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item women">
-					{/* <!-- Block2 --> */}
-					<div className="block2">
-						<div className="block2-pic hov-img0">
-							<img src="https://n2.sdlcdn.com/imgs/d/r/r/230X258_sharpened/Falling-in-Love-Again-Stories-SDL301361799-1-dc51a.webp" alt="IMG-PRODUCT"/>
-
-							<a href="#" className="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal1">
-								Quick View
-							</a>
-						</div>
-
-						<div className="block2-txt flex-w flex-t p-t-14">
-							<div className="block2-txt-child1 flex-col-l ">
-								<a href="product-detail.html" className="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
-									classNameic Trench Coat
-								</a>
-
-								<span className="stext-105 cl3">
-									$75.00
-								</span>
-							</div>
-
-							<div className="block2-txt-child2 flex-r p-t-3">
-								<a href="#" className="btn-addwish-b2 dis-block pos-relative js-addwish-b2">
-									<img className="icon-heart1 dis-block trans-04" src="assets/images/icons/icon-heart-01.png" alt="ICON"/>
-									<img className="icon-heart2 dis-block trans-04 ab-t-l" src="assets/images/icons/icon-heart-02.png" alt="ICON"/>
-								</a>
-							</div>
-						</div>
-					</div>
-				</div>
-
-				
-			</div>
-			<div className="wrap-slick2">
-				<div className="row isotope-grid">
-				<Carouselproduct/>
-
-                    
-
-                  
-
-                  
-
-                   
-				</div>
-			</div>
-		</div>
-	</section>
     <Footer/>
     </div>
   )

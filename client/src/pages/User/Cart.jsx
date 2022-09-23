@@ -257,14 +257,14 @@ function Cart() {
                                 </div>
 
                                 <div className="flex-w flex-t bor12 p-t-15 p-b-30">
-                                    <div className="size-208 w-full-ssm">
+                                    {/* <div className="size-208 w-full-ssm">
                                         <span className="stext-110 cl2">
                                             Shipping:
                                         </span>
-                                    </div>
+                                    </div> */}
 
                                     <div className="size-209 p-r-18 p-r-0-sm w-full-ssm">
-                                        <p className="stext-111 cl6 p-t-2">
+                                        {/* <p className="stext-111 cl6 p-t-2">
                                             There are no shipping methods available. Please double check your address, or contact us if you need any help.
                                         </p>
 
@@ -296,7 +296,7 @@ function Cart() {
                                                 </div>
                                             </div>
 
-                                        </div>
+                                        </div> */}
                                     </div>
                                 </div>
 

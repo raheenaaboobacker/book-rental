@@ -14,25 +14,25 @@ function Footer() {
 					<ul>
 						<li className="p-b-10">
 							<a href="#" className="stext-107 cl7 hov-cl1 trans-04">
-								Women
+								Noval
 							</a>
 						</li>
 
 						<li className="p-b-10">
 							<a href="#" className="stext-107 cl7 hov-cl1 trans-04">
-								Men
+								Poetry
 							</a>
 						</li>
 
 						<li className="p-b-10">
 							<a href="#" className="stext-107 cl7 hov-cl1 trans-04">
-								Shoes
+								Short Story
 							</a>
 						</li>
 
 						<li className="p-b-10">
 							<a href="#" className="stext-107 cl7 hov-cl1 trans-04">
-								Watches
+								Fiction
 							</a>
 						</li>
 					</ul>
@@ -116,23 +116,23 @@ function Footer() {
 			<div className="p-t-40">
 				<div className="flex-c-m flex-w p-b-18">
 					<a href="#" className="m-all-1">
-						<img src="assets/images/icons/icon-pay-01.png" alt="ICON-PAY"/>
+						<img src="/assets/images/icons/icon-pay-01.png" alt="ICON-PAY"/>
 					</a>
 
 					<a href="#" className="m-all-1">
-						<img src="assets/images/icons/icon-pay-02.png" alt="ICON-PAY"/>
+						<img src="/assets/images/icons/icon-pay-02.png" alt="ICON-PAY"/>
 					</a>
 
 					<a href="#" className="m-all-1">
-						<img src="assets/images/icons/icon-pay-03.png" alt="ICON-PAY"/>
+						<img src="/assets/images/icons/icon-pay-03.png" alt="ICON-PAY"/>
 					</a>
 
 					<a href="#" className="m-all-1">
-						<img src="assets/images/icons/icon-pay-04.png" alt="ICON-PAY"/>
+						<img src="/assets/images/icons/icon-pay-04.png" alt="ICON-PAY"/>
 					</a>
 
 					<a href="#" className="m-all-1">
-						<img src="assets/images/icons/icon-pay-05.png" alt="ICON-PAY"/>
+						<img src="/assets/images/icons/icon-pay-05.png" alt="ICON-PAY"/>
 					</a>
 				</div>
 

@@ -4,7 +4,7 @@ const Schema = mongoose.Schema    //schema definition
 
 const bookSchema = new Schema({
     login_id:{type:Schema.Types.ObjectId,ref:"login_tb"},
-     cat_id:{ type: String, required: true },
+    category:{ type: String, required: true },
      title:{ type: String, required: true },   
      publisher:{ type: String, required: true },   
      price:{ type: String, required: true },   
@@ -12,7 +12,8 @@ const bookSchema = new Schema({
      pages:{ type: String, required: true },   
      desc:{ type: String, required: true },   
      language:{ type: String, required: true },   
-    //  pdf:{ type: String, },   
+     pdf:{ type: String },   
+     pdfprice:{ type: String },   
      image:{ type: String, required: true },   
    
 })

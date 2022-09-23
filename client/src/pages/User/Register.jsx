@@ -81,7 +81,7 @@ function Register() {
     <section className="signup">
         <div className="logincontainer">
             <div className="signup-content" style={{backgroundImage: "url("+"assets/images/register.jpg"+")",
-  backgroundSize: "cover"}}>
+             backgroundSize: "cover"}}>
                 
                 <div className="signup-form" >
                 {/* <div className="signup-image">
@@ -121,6 +121,8 @@ function Register() {
                             {errorpass?<span className='errormsg'>Please Enter confirm password</span>:null}
                         </div>
                         <a href="/login" className="signup-image-link">I am already member</a>
+                        <br/><br/>
+                        <a href="/volunteerReg" className="signup-image-link">Are You A Volunteer?</a>
                         <div className="form-group form-button">
                             
                             <input type="submit"  className="form-submit"/>

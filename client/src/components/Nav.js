@@ -1,6 +1,5 @@
 import React,{useState,useEffect} from 'react'
 import { Link ,useNavigate} from 'react-router-dom';
-import $ from 'jquery';
 
 function Nav() {
 	const navigate=useNavigate()
@@ -47,6 +46,7 @@ useEffect(() => {
 	{
 		localStorage.clear();
 		window.sessionStorage.clear();
+		window.location.reload();
 		navigate("/")
 	
 	}
@@ -71,7 +71,7 @@ useEffect(() => {
 					
 					{/* <!-- Logo desktop -->		 */}
 					<a href="#" className="logo">
-						<img src="assets/images/icons/logo-01.png" alt="IMG-LOGO"/>
+						<img src="/assets/images/icons/logo-01.png" alt="IMG-LOGO"/>
 					</a>
 
 					{/* <!-- Menu desktop --> */}
@@ -80,28 +80,29 @@ useEffect(() => {
 							<li>
 								<a href="/">Home</a>
 								<ul className="sub-menu">
-									<li><a href="/addBook">Add Book</a></li>
-									<li><a href="home-02.html">Homepage 2</a></li>
-									<li><a href="home-03.html">Homepage 3</a></li>
+									<li><a href="/">Homepage </a></li>
 								</ul>
 							</li>
-
-							<li className="active-menu">
-								<a href="#">Shop</a>
+							<li>
+								<a href="/">Book</a>
+								<ul className="sub-menu">
+								<li>{!token?null:<a href='/addBook'>Add Book</a>}</li>
+								{!token?null:<a href='/userViewBook'>My Books</a>}
+								<li><a href="/viewRentbooks">E-Book </a></li>
+								</ul>
 							</li>
+							
 
-							<li className="label1" data-label1="hot">
-								<a href="shoping-cart.html">Features</a>
+
+							<li  >
+								<a href="/contact">contact Us</a>
 							</li>
 
 							<li>
-								<a href="register">Register</a>
+								<a href="/register">Register</a>
 							</li>
 
-							<li>
-								<a href="#">About</a>
-							</li>
-
+							
 							<li>
 								{!token?<a href="/login">login</a>:<a onClick={logout}>Logout</a>}
 							</li>
@@ -134,7 +135,7 @@ useEffect(() => {
 		<div className="wrap-header-mobile">
 			{/* <!-- Logo moblie -->		 */}
 			<div className="logo-mobile">
-				<a href="/"><img src="assets/images/icons/logo-01.png" alt="IMG-LOGO"/></a>
+				<a href="/"><img src="/assets/images/icons/logo-01.png" alt="IMG-LOGO"/></a>
 			</div>
 
 			{/* <!-- Icon header --> */}
@@ -170,29 +171,26 @@ useEffect(() => {
 				<li>
 					<a href="/">Home</a>
 					<ul className="sub-menu-m">
-						<li><a href="addBook">Add Book</a></li>
-						<li><a href="home-02.html">Homepage 2</a></li>
-						<li><a href="home-03.html">Homepage 3</a></li>
+						
+						
 					</ul>
 					<span className="arrow-main-menu-m">
 						<i className="fa fa-angle-right" aria-hidden="true"></i>
 					</span>
 				</li>
 
+				<li><a href="addBook">Add Book</a></li>
+
 				<li>
-					<a href="product.html">Shop</a>
+					<a href="#" className="label1 rs1" data-label1="hot">Features</a>
 				</li>
 
 				<li>
-					<a href="shoping-cart.html" className="label1 rs1" data-label1="hot">Features</a>
+					<a href="#">Blog</a>
 				</li>
 
 				<li>
-					<a href="blog.html">Blog</a>
-				</li>
-
-				<li>
-					<a href="about.html">About</a>
+					<a href="#">About</a>
 				</li>
 
 				<li>
@@ -205,7 +203,7 @@ useEffect(() => {
 		<div className="modal-search-header flex-c-m trans-04 js-hide-modal-search" id='exampleModalCenter'>
 			<div className="container-search-header">
 				<button className="flex-c-m btn-hide-modal-search trans-04 js-hide-modal-search">
-					<img src="assets/images/icons/icon-close2.png" alt="CLOSE"/>
+					<img src="/assets/images/icons/icon-close2.png" alt="CLOSE"/>
 				</button>
 
 				<form className="wrap-search-header flex-w p-l-15">

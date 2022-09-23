@@ -3,7 +3,7 @@ mongoose.connect('mongodb://raheena:raheena%40123@cluster1-shard-00-00.zmtjd.mon
 const Schema = mongoose.Schema    //schema definition
 
 const categorySchema = new Schema({
-    cat_name:{ type: String, required: true },   
+    category:{ type: String, required: true },   
     
 })
 

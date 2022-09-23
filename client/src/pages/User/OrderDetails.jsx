@@ -32,7 +32,7 @@ export default function OrderDetails() {
     
   return (
     <><Nav/>
-    <section className="bg-img1 txt-center p-lr-15 p-tb-92" style={{backgroundImage: "url("+"assets/images/bg-01.jpg"+")"}}>
+    <section className="bg-img1 txt-center p-lr-15 p-tb-92" style={{backgroundImage: "url("+"assets/images/banner2.jpg"+")"}}>
 		<h2 className="ltext-105 cl0 txt-center">
 			Orders
 		</h2>

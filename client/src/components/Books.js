@@ -8,6 +8,9 @@ import $ from 'jquery';
 import swal from 'sweetalert';
 import axios from 'axios';
 import Carouselproduct from './Carouselproduct';
+import {Document,Page,pdfjs} from 'react-pdf'
+import moment from 'moment'
+// import PDF from './upload/Hemlock.jpg'
 
 function Books() {
 	const navigate=useNavigate()
@@ -17,7 +20,18 @@ function Books() {
     const [book, setBook] = useState([]);
     const [searchitem,setSearchitem]=useState("")
     const [temp,setTemp]=useState([])
-    const [cartdata,setCartdata]=useState([])
+    const [date,setDate]=useState([])
+	var dateObj = new Date();
+    var month = dateObj.getUTCMonth() + 1;
+    var day = dateObj.getUTCDate();
+    var year = dateObj.getUTCFullYear();
+	if(month < 10)
+	month = '0' + month.toString();
+    var newdate = year + "-" + month + "-" + day;
+    console.log(newdate);
+
+	
+
 
 	useEffect(() => {
 		if($){
@@ -155,7 +169,28 @@ function Books() {
 }	
 
 	} 
+const rentPdf=(id,price)=>{
 
+var date1 = new Date(newdate);
+var date2 = new Date(date);
+  
+var Difference_In_Time = date2.getTime() - date1.getTime();
+  
+var diffDays = Difference_In_Time / (1000 * 3600 * 24);
+  
+	console.log(typeof(date));
+	console.log(newdate);
+console.log(diffDays);
+	const data={
+
+		id:id,
+		price:price*diffDays,
+		duedate:date
+	}
+	console.log(data);
+	navigate('/rentPayment' , {state: data})
+
+}
   return (
     
 	<div className="row isotope-grid">
@@ -177,9 +212,10 @@ function Books() {
 								<a href={`/productDetails/${book._id}`} className="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
 								{book?.title}
 								</a>
+								{book.pdf=="null"?null:<a  >pdf available</a>}
 
 								<span className="stext-105 cl3">
-								₹{book?.price}
+								{book?.price}
 								</span>
 							</div>
 
@@ -199,7 +235,7 @@ function Books() {
 		<div className="container">
 			<div className="bg0 p-t-60 p-b-30 p-lr-15-lg how-pos3-parent">
 				<button className="how-pos3 hov3 trans-04 js-hide-modal1">
-					<img src="assets/images/icons/icon-close.png" alt="CLOSE"/>
+					<img src="ass₹ets/images/icons/icon-close.png" alt="CLOSE"/>
 				</button>
 
 				<div className="row">
@@ -272,6 +308,19 @@ function Books() {
 							</p>
 							
 							<div className="p-t-33">
+							<div className="flex-w flex-r-m p-b-10">
+								
+{/* {console.log(PDF)}
+									<Page pageNumber={1}/>
+								</Document> */}
+									<div className="size-203 flex-c-m respon6">
+										Category
+									</div>
+
+									<div className="size-204 respon6-next">										
+											<h6>{data.category}</h6>									
+									</div>
+								</div>
 								<div className="flex-w flex-r-m p-b-10">
 									<div className="size-203 flex-c-m respon6">
 										Publiser
@@ -298,6 +347,14 @@ function Books() {
 									<div className="size-204 respon6-next">										
 											<h6>{data.pages}</h6>									
 									</div>
+								</div><div className="flex-w flex-r-m p-b-10">
+									<div className="size-203 flex-c-m respon6">
+										price for e-book/day
+									</div>
+
+									<div className="size-204 respon6-next">										
+											<h6>{data.pdfprice}</h6>									
+									</div>
 								</div>
 								<div className="flex-w flex-r-m p-b-10">
 									<div className="size-204 flex-w flex-m respon6-next">
@@ -312,13 +369,34 @@ function Books() {
 												<i className="fs-16 zmdi zmdi-plus"></i>
 											</div>
 										</div>
-
-										<button onClick={()=>{addToCart(data._id,data.price)}} className="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 js-addcart-detail">
+										<button  onClick={()=>{addToCart(data._id,data.price)}} className="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 js-addcart-detail">
 											Add to cart
 										</button>
+										{data.pdf=="null"?null:<>
+										<form onSubmit={(e)=>{e.preventDefault();}}>
+
+										<div style={{marginLeft:"-90px"}} className="flex-w flex-r-m p-b-10">
+											<div className="size-203 flex-c-m respon6">
+												Due date of ebook
+											</div>
+
+											<div className="size-204 respon6-next">										
+											<input type="date"  name="date"  min={newdate}
+                                     onChange={(e)=>{setDate(e.target.value)}} value={date}  required/>
+										
+											</div>
+										</div>
+										<button type='submit' style={{marginTop:"5px"}} onClick={()=>{rentPdf(data._id,data.pdfprice)}} className="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04">
+											Rent ebook
+										</button>
+										</form>
+										</>}	
+
+										
 										<button onClick={() => setShow(false)} className="how-pos3 hov3 trans-04 ">
 										<img src="assets/images/icons/icon-close2.png" alt="CLOSE"/>
 										</button>
+										
 									</div>
 								</div>	
 							</div>

@@ -2,6 +2,7 @@ import axios from 'axios';
 import React, { useState,useEffect } from 'react'
 import { useNavigate } from 'react-router-dom';
 import './loginstyle.css'
+
 function Login() {
   const navigate=useNavigate()
   const [contacts,setContacts]=useState({
@@ -26,11 +27,29 @@ function Login() {
     .then((response)=>{
       console.log(response);
       if(response.data.success===true){
-        localStorage.setItem("username",response.data.name)
+        if(response.data.role===2)
+        {
+          localStorage.setItem("username",response.data.name)
         localStorage.setItem("loginId",response.data.loginId)
         localStorage.setItem("role",response.data.role)
         localStorage.setItem("token",response.data.token)
         navigate("/")
+        }
+        else if(response.data.role===1)
+        {
+          localStorage.setItem("username",response.data.name)
+          localStorage.setItem("loginId",response.data.loginId)
+          localStorage.setItem("role",response.data.role)
+          localStorage.setItem("token",response.data.token)
+          navigate("/adminDashboard")
+        } else if(response.data.role===3)
+        {
+          localStorage.setItem("username",response.data.name)
+          localStorage.setItem("loginId",response.data.loginId)
+          localStorage.setItem("role",response.data.role)
+          localStorage.setItem("token",response.data.token)
+          navigate("/volunteerDashboard")
+        }
       }
     })
     // console.log("login data"+JSON.stringify(contacts)) ;
@@ -44,12 +63,12 @@ function Login() {
     <div className="logincontainer">
         <div className="signin-content">
             <div className="signin-image">
-                <figure><img width="100%" src="assets/images/login" alt="sing up image"/></figure>
+                <figure><img width="100%" src="assets/images/login.jpg" alt="sing up image"/></figure>
                 <a href="/register" className="signup-image-link">Create an account</a>
             </div>
 
             <div className="signin-form">
-                <h2 className="form-title">Sign up</h2>
+                <h2 className="form-title">Sign In</h2>
                 <form onSubmit={validation} className="register-form" id="login-form">
                     <div className="form-group">
                         <label htmlFor="your_name"><i className="zmdi zmdi-account material-icons-name"></i></label>

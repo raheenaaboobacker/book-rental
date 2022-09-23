@@ -51,20 +51,20 @@ export default function UserDeliveryDetails() {
 								<div className="form-row">
 									<div className="form-holder">
 										<label htmlFor="first_name">Full Name</label>
-										<input type="text" placeholder="ex: Laura" className="form-control" id="name" name="name"
-                                        onChange={handleInputChange} value={contacts.name}/>
+										<input type="text" placeholder="Full name" className="form-control" id="name" name="name"
+                                        onChange={handleInputChange} value={contacts.name} required/>
 									</div>
 									<div className="form-holder">
 										<label htmlFor="last_name">Phone Number</label>
-                                        <input type="text" placeholder="+1 777-888-8888" className="form-control" id="phone" name="phone"
-                                        onChange={handleInputChange} value={contacts.phone}/>
+                                        <input type="number" placeholder="8563214789" className="form-control" id="phone" name="phone"
+                                        onChange={handleInputChange} value={contacts.phone} required/>
 									</div>
 								</div>
 								<div className="form-row">
 									<div className="form-holder form-holder-2">
 										<label htmlFor="address">Address Location</label>
 										<input type="text" placeholder="622 Dixie Path, South Tobinchester, UT 98336" className="form-control" id="address" name="address"
-                                        onChange={handleInputChange} value={contacts.address}/>
+                                        onChange={handleInputChange} value={contacts.address} required/>
 										<span><i className="zmdi zmdi-pin"></i></span>
 									</div>
 								</div>
@@ -72,24 +72,24 @@ export default function UserDeliveryDetails() {
 									<div className="form-holder form-holder-3">
 										<label htmlFor="phone">Land Mark</label>
 										<input type="text" placeholder="ex: Vaughn" className="form-control" id="landmark" name="landmark"
-                                        onChange={handleInputChange} value={contacts.landmark}/>
+                                        onChange={handleInputChange} value={contacts.landmark} required/>
 									</div>
 									<div className="form-holder">
 										<label htmlFor="code">Pin Code</label>
-										<input type="text" className="form-control" id="pincode" name="pincode"
-                                        onChange={handleInputChange} value={contacts.pincode}/>
+										<input type="number" className="form-control" id="pincode" name="pincode"
+                                        onChange={handleInputChange} value={contacts.pincode} required/>
 									</div>
 								</div>
 								<div className="form-row">
 									<div className="form-holder form-holder-3">
 										<label htmlFor="phone">City</label>
 										<input type="text" placeholder="ex: Vaughn" className="form-control" id="city" name="city"
-                                        onChange={handleInputChange} value={contacts.city}/>
+                                        onChange={handleInputChange} value={contacts.city} required/>
 									</div>
 									<div className="form-holder">
 										<label htmlFor="code">State</label>
 										<input type="text" className="form-control" id="state" name="state"
-                                        onChange={handleInputChange} value={contacts.state}/>
+                                        onChange={handleInputChange} value={contacts.state} required/>
 									</div>
 								</div>
 							</div>

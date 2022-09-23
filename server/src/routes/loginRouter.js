@@ -3,6 +3,8 @@ const router = express.Router();
 const bcrypt = require('bcryptjs')
 const register = require('../modals/registerdata')
 const login=require('../modals/logindata')
+const volunteer=require('../modals/volunteerdata')
+
 const jwt=require('jsonwebtoken')
 
 
@@ -37,7 +39,7 @@ router.post('/login',(req, res)=>{
            const token = jwt.sign(
             {username:fetchedUser.username, userId:fetchedUser._id, userRole:fetchedUser.role},
                 "secret_this_should_be_longer",
-                { expiresIn: "4h" }
+               
             ) 
             res.status(200).json({
                 success:true,
@@ -48,76 +50,56 @@ router.post('/login',(req, res)=>{
                 role:fetchedUser.role
             })
         }
-        // else if(fetchedUser.role===1){
-        //    // console.log("role not=>",fetchedUser.role);
-        //     id = fetchedUser._id
-        //     drivers.findOne({login_id:id})
-        //     .then((registerData)=>{  
+        if(fetchedUser.role===1){
+            // console.log("role=>",fetchedUser.role);
+            const token = jwt.sign(
+             {username:fetchedUser.username, userId:fetchedUser._id, userRole:fetchedUser.role},
+                 "secret_this_should_be_longer",
+                 { expiresIn: "4h" }
+             ) 
+             res.status(200).json({
+                 success:true,
+                 error:false,
+                 token:token,
+                 loginId: fetchedUser._id,
+                 name: fetchedUser.username,
+                 role:fetchedUser.role
+             })
+         }
+        else if(fetchedUser.role===3){
+            id = fetchedUser._id
+            volunteer.findOne({login_id:id})
+            .then((registerData)=>{  
                 
-        //         let status = registerData.status
-        //         console.log(status);
-        //         if(status!=1){
-        //             return res.status(401).json({
-        //                 success:false,
-        //                 error:true,
-        //                 message: "Waiting for admins approval",                        
-        //             })
-        //         }
-        //         else{
+                let status = fetchedUser.status
+                console.log("status=>",status);
+                if(status!=1){
+                    return res.status(401).json({
+                        success:false,
+                        error:true,
+                        message: "Waiting for admins approval",                        
+                    })
+                }
+                else{
                     
                    
-        //             const token = jwt.sign(
-        //                 {username:fetchedUser.username, userId:fetchedUser._id, userRole:fetchedUser.role},
-        //                 "secret_this_should_be_longer",
-        //                 { expiresIn: "1h" }
-        //             )            
-        //             res.status(200).json({
-        //                 success:true,
-        //                 error:false,
-        //                 token:token,
-        //                 loginId: fetchedUser._id,
-        //                 role:fetchedUser.role,
-        //                 name: registerData.name,
-        //                 role:fetchedUser.role
-        //             })
-        //         }
+                    const token = jwt.sign(
+                        {username:fetchedUser.username, userId:fetchedUser._id, userRole:fetchedUser.role},
+                        "secret_this_should_be_longer",
+                        { expiresIn: "1h" }
+                    )            
+                    res.status(200).json({
+                        success:true,
+                        error:false,
+                        token:token,
+                        loginId: fetchedUser._id,
+                        name: registerData.name,
+                        role:fetchedUser.role
+                    })
+                }
                
-        //     })
-        // }
-        // else if(fetchedUser.role===2){
-        //     id = fetchedUser._id
-        //     register.findOne({login_id:id})
-        //     .then((registerData)=>{  
-                
-        //         let status = registerData.status
-        //         console.log(status);
-        //         if(status!=1){
-        //             return res.status(401).json({
-        //                 success:false,
-        //                 error:true,
-        //                 message: "Waiting for admins approval",                        
-        //             })
-        //         }
-        //         else{
-                    
-                   
-        //             const token = jwt.sign(
-        //                 {username:fetchedUser.username, userId:fetchedUser._id, userRole:fetchedUser.role},
-        //                 "secret_this_should_be_longer",
-        //                 { expiresIn: "1h" }
-        //             )            
-        //             res.status(200).json({
-        //                 success:true,
-        //                 error:false,
-        //                 token:token,
-        //                 loginId: fetchedUser._id,
-        //                 name: registerData.name,
-        //                 role:fetchedUser.role
-        //             })
-        //         }
-               
-        //     })
-        // }
+            })
+        }
         
  
     })

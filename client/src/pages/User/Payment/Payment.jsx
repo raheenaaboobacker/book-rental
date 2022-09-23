@@ -75,39 +75,39 @@ export default function Payment() {
 								<div className="form-row">
 									<div className="form-holder">
 										<label>Bank Name:</label>
-										<input type="text" placeholder="UsBank" className="form-control input-step-2" id="bank"  name="bankname"
-                                        onChange={handleInputChange} value={paymentdata.name}/>
+										<input type="text" placeholder="" className="form-control input-step-2" id="bank"  name="bankname"
+                                        onChange={handleInputChange} value={paymentdata.bankname} required/>
 										<span><i className="zmdi zmdi-search"></i></span>
 									</div>
 									<div className="form-holder">
 										<label >Branch Name:</label>
-										<input type="text" placeholder="America" className="form-control input-step-2" id="branch"  name="name"
-                                        onChange={handleInputChange} value={paymentdata.name}/>
+										<input type="text" placeholder="" className="form-control input-step-2" id="branch"  name="name"
+                                        onChange={handleInputChange} value={paymentdata.name} required/>
 									</div>
 								</div>
 								<div className="form-row">
 									<div className="form-holder form-holder-2">
 										<label >Email Address:</label>
-										<input type="email" className="email input-step-2-1" id="email" placeholder="ex: example@email.com" pattern="[^@]+@[^@]+.[a-zA-Z]{2,6}" name="name"
-                                        onChange={handleInputChange} value={paymentdata.name}/>
+										<input type="email" className="email input-step-2-1" id="email" placeholder="ex: example@email.com" pattern="[^@]+@[^@]+.[a-zA-Z]{2,6}" name="email"
+                                        onChange={handleInputChange} value={paymentdata.email} required/>
 									</div>
 								</div>
 								<div className="form-row">
 									<div className="form-holder form-holder-2">
 										<label for="account_name">Account Name:</label>
-										<input type="text" placeholder="Account Name" className="form-control input-step-2-1" id="account_name"  name="name"
-                                        onChange={handleInputChange} value={paymentdata.name}/>
+										<input type="text" placeholder="Account Name" className="form-control input-step-2-1" id="account_name"  name="accname"
+                                        onChange={handleInputChange} value={paymentdata.accname} required/>
 									</div>
 								</div>
 								<div className="form-row">
 									<div className="form-holder form-holder-2">
 										<label for="account_number">Account Number:</label>
-										<input type="text" placeholder="4576-6970-3801-2620" className="form-control input-step-2-2" id="account_number"  name="name"
-                                        onChange={handleInputChange} value={paymentdata.name}/>
-										<span className="card"><i className="zmdi zmdi-card"></i></span>
+										<input type="text" placeholder="4576-6970-3801-2620" className="form-control input-step-2-2" id="account_number"  name="phone"
+                                        onChange={handleInputChange} value={paymentdata.phone} required/>
+										{/* <span className="card"><i className="zmdi zmdi-card"></i></span> */}
 									</div>
 								</div>
-								<div className="form-row form-row-date form-row-step-2">
+								{/* <div className="form-row form-row-date form-row-step-2">
 									<div className="form-holder form-holder-2">
 										<label for="date_2" className="special-label">Expiry Date:</label>
 										<select name="date_2" id="date_2" className="form-control">
@@ -134,7 +134,7 @@ export default function Payment() {
 										</select>
 										
 									</div>
-								</div>
+								</div> */}
 							</div>
 							<div className=" p-lr-40 p-t-30 p-b-40 m-l-63 m-r-40 m-lr-0-xl p-lr-15-sm">
 										<button type='submit' className="flex-c-m stext-101 cl0 size-116 bg5 bor14 hov-btn3 p-lr-15 trans-04 ">
