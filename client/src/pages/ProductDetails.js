@@ -7,9 +7,14 @@ import Nav from '../components/Nav'
 import swal from 'sweetalert';
 import {useNavigate } from 'react-router-dom';
 
+
 function ProductDetails() {
 	const navigate=useNavigate()
+	const [feedback,setFeedback]=useState("")
+	const [isreview,setIsreview]=useState(false)
+	const [vfeedback,setVfeedback]=useState("")
 	const token=localStorage.getItem("token")
+	const loginId=localStorage.getItem("loginId")
 	let [num, setNum]= useState(1);
 	const [temp,setTemp]=useState([])
 	const {id}=useParams()
@@ -26,11 +31,20 @@ function ProductDetails() {
 	console.log(id);
 	useEffect(() => {
 		axios.get(`http://localhost:5000/book/singleitem/${id}`).then((response)=>{
-			console.log("singledata"+JSON.stringify(response.data.data));
+			// console.log("singledata"+JSON.stringify(response.data.data));
 			setTemp(response.data.data)
-			console.log("singledata state"+JSON.stringify(temp))
+			// console.log("singledata state"+JSON.stringify(temp))
 			
 		})
+		if(loginId){
+			axios.get(`http://localhost:5000/feedback/rewiewOrNot/${id}/${loginId}`).then((response)=>{
+				console.log("reviewdata====>"+JSON.stringify(response.data.message));
+				if(response.data.success== true)
+				setIsreview(true)
+				
+			})
+		}
+	
 	}, [])
 	
 
@@ -105,6 +119,79 @@ function ProductDetails() {
 			navigate('/rentPayment' , {state: data})
 		
 		}
+  
+
+		const viewfeedback=()=>{
+			axios.get(`http://localhost:5000/book/view-feedback/${id}`).then((response)=>{
+			console.log("singledata"+JSON.stringify(response.data.data));
+			setVfeedback(response.data.data)
+			// console.log("singledata state"+JSON.stringify(temp))
+			
+		})
+		}
+
+
+
+		const addFeedback=(e)=>{
+			e.preventDefault();
+		const name=localStorage.getItem("username")
+		var cdata={
+			book_id:id,
+			feedback:feedback,
+			name:name
+		}
+		if(!token) {const el = document.createElement('div')
+		el.innerHTML = " <a href='/login'>login here</a>"
+
+		swal({
+			title:"Please Login",
+			content: el,
+		  })}else{
+		fetch('http://localhost:5000/feedback/add-feedback', {
+        method: 'POST',
+        body: JSON.stringify(cdata),
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization':'Bearer '+token
+        },
+    })
+    .then(res => res.json())
+    .then((data) => {
+        console.log("Result========",data)
+        if(data.success==true)
+        {
+          
+            swal(data.message)
+            
+            // navigate('/cart')
+        }
+        else{
+			const el = document.createElement('div')
+            el.innerHTML = " <a href='/login'>login here</a>"
+
+            swal({
+				title:data.message,
+				content: el,
+			  })
+        }
+ })
+}
+		}
+
+		let incNum =()=>{
+			if(num<20)
+			{
+			setNum(Number(num)+1);
+			}
+			console.log(num);
+		  };
+		  let decNum = () => {
+			 if(num>1)
+			 {
+			  setNum(num - 1);
+			 }
+			 console.log(num);
+		  }
 
   return (
     <div>
@@ -123,7 +210,7 @@ function ProductDetails() {
 									<div className="wrap-pic-w pos-relative">
 										<img src={`/upload/${temp[0]?.image}`} alt="IMG-PRODUCT"/>
 
-										<a className="flex-c-m size-108 how-pos1 bor0 fs-16 cl10 bg0 hov-btn3 trans-04" href="images/product-detail-01.jpg">
+										<a className="flex-c-m size-108 how-pos1 bor0 fs-16 cl10 bg0 hov-btn3 trans-04" href={`/upload/${temp[0]?.image}`}>
 											<i className="fa fa-expand"></i>
 										</a>
 									</div>
@@ -178,7 +265,7 @@ function ProductDetails() {
 											<h6>{temp[0]?.pages}</h6>									
 									</div>
 								</div>
-								
+								{temp[0]?.pdfstatus==="0"?null:<>
 								<div className="flex-w flex-r-m p-b-10">
 									<div className="size-203 flex-c-m respon6">
 										price for e-book/day
@@ -187,26 +274,40 @@ function ProductDetails() {
 									<div className="size-204 respon6-next">										
 											<h6>{temp[0]?.pdfprice}</h6>									
 									</div>
-								</div>
+								</div></>}
+								
 							<div className="flex-w flex-r-m p-b-10">
 								<div className="size-204 flex-w flex-m respon6-next">
-									<div className="wrap-num-product flex-w m-r-20 m-tb-10">
-										<div className="btn-num-product-down cl8 hov-btn3 trans-04 flex-c-m">
-											<i className="fs-16 zmdi zmdi-minus"></i>
-										</div>
+								<div className="wrap-num-product flex-w m-r-20 m-tb-10">
+											<div onClick={decNum} className="btn-num-product-down cl8 hov-btn3 trans-04 flex-c-m">
+												<i className="fs-16 zmdi zmdi-minus"></i>
+											</div>
 
-										<input className="mtext-104 cl3 txt-center num-product" type="number" name="num-product" value="1"/>
+											<input  className="mtext-104 cl3 txt-center num-product" type="number"  name="num-product" minvalue="1" value={num}/>
 
-										<div className="btn-num-product-up cl8 hov-btn3 trans-04 flex-c-m">
-											<i className="fs-16 zmdi zmdi-plus"></i>
+											<div onClick={incNum} className="btn-num-product-up cl8 hov-btn3 trans-04 flex-c-m">
+												<i className="fs-16 zmdi zmdi-plus"></i>
+											</div>
 										</div>
-									</div>
 
 									<button onClick={()=>{addToCart(temp[0]._id,temp[0].price)}} className="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 js-addcart-detail">
 										Add to cart
 									</button>
-								
-								{temp[0]?.pdf=="null"?null:<>
+									{/* <br/><br/><br/><br/><br/><br/><br/><br/>
+									<div className="wrap-num-product flex-w m-r-20 m-tb-10">
+										
+
+										<input className="mtext-104  txt-center " type="text" name="feedback" onChange={(e)=>{setFeedback(e.target.value)}}/>
+
+										
+									</div>
+
+									<button onClick={()=>{addFeedback(temp[0]._id)}} className="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 js-addcart-detail">
+										Add Feedback
+									</button> */}
+									<br/><br/><br/><br/><br/>
+
+								{temp[0]?.pdfstatus==="0"?null:<>
 										<form onSubmit={rentPdf}>
 
 										<div style={{marginLeft:"-90px"}} className="flex-w flex-r-m p-b-10">
@@ -218,18 +319,22 @@ function ProductDetails() {
 											<input type="date"  name="date"  min={newdate}
                                      onChange={(e)=>{setDate(e.target.value)}} value={date}  required/>
 										
-											</div>
-										</div>
-										<button type='submit' style={{marginTop:"5px"}}  className="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04">
+											
+										<button type='submit' style={{marginTop:"5px"}}  className="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 js-addcart-detail">
 											Rent ebook
 										</button>
+										</div>
+										</div>
 										</form>
 										</>}
+
+										
+										
 									</div>
 							</div>	
 						</div>
 
-						<div className="flex-w flex-m p-l-100 p-t-40 respon7">
+						{/* <div className="flex-w flex-m p-l-100 p-t-40 respon7">
 							<div className="flex-m bor9 p-r-10 m-r-11">
 								<a href="#" className="fs-14 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 js-addwish-detail tooltip100" data-tooltip="Add to Wishlist">
 									<i className="zmdi zmdi-favorite"></i>
@@ -247,7 +352,9 @@ function ProductDetails() {
 							<a href="#" className="fs-14 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 m-r-8 tooltip100" data-tooltip="Google Plus">
 								<i className="fa fa-google-plus"></i>
 							</a>
-						</div>
+						</div> */}
+
+							
 					</div>
 				</div>
 			</div>
@@ -262,7 +369,9 @@ function ProductDetails() {
 						<li className="nav-item p-b-10">
 							<a className="nav-link" data-toggle="tab" href="#information" role="tab">Additional information</a>
 						</li>
-
+						<li className="nav-item p-b-10">
+							<a className="nav-link " data-toggle="tab" href="#reviews" onClick={viewfeedback} role="tab">Feedback</a>
+						</li>
 						
 					</ul>
 
@@ -331,86 +440,65 @@ function ProductDetails() {
 								</div>
 							</div>
 						</div>
-{/* 
+
 						<div className="tab-pane fade" id="reviews" role="tabpanel">
 							<div className="row">
 								<div className="col-sm-10 col-md-8 col-lg-6 m-lr-auto">
 									<div className="p-b-30 m-lr-15-sm">
-										<div className="flex-w flex-t p-b-68">
-											<div className="wrap-pic-s size-109 bor0 of-hidden m-r-18 m-t-6">
-												<img src="/assets/images/avatar-01.jpg" alt="AVATAR"/>
-											</div>
-
+									{vfeedback&&vfeedback.map(item=>(
+											<div className="flex-w flex-t p-b-68">
+										
 											<div className="size-207">
 												<div className="flex-w flex-sb-m p-b-17">
 													<span className="mtext-107 cl2 p-r-20">
-														Ariana Grande
-													</span>
-
-													<span className="fs-18 cl11">
-														<i className="zmdi zmdi-star"></i>
-														<i className="zmdi zmdi-star"></i>
-														<i className="zmdi zmdi-star"></i>
-														<i className="zmdi zmdi-star"></i>
-														<i className="zmdi zmdi-star-half"></i>
+														{item?.feedbackData?.name}
 													</span>
 												</div>
 
 												<p className="stext-102 cl6">
-													Quod autem in homine praestantissimum atque optimum est, id deseruit. Apud ceteros autem philosophos
+													{item?.feedbackData?.feedback}
 												</p>
 											</div>
 										</div>
-										
-										<form className="w-full">
+											))}
+										{!loginId?
+										<h6 className="mtext-107 cl2 p-r-20">
+										Please Login To Add Feedback
+										</h6>:<>
+										{isreview==true?<>
+											<form onSubmit={addFeedback} className="w-full">
 											<h5 className="mtext-108 cl2 p-b-7">
 												Add a review
 											</h5>
 
-											<p className="stext-102 cl6">
-												Your email address will not be published. Required fields are marked *
-											</p>
-
 											<div className="flex-w flex-m p-t-50 p-b-23">
-												<span className="stext-102 cl3 m-r-16">
-													Your Rating
-												</span>
-
-												<span className="wrap-rating fs-18 cl11 pointer">
-													<i className="item-rating pointer zmdi zmdi-star-outline"></i>
-													<i className="item-rating pointer zmdi zmdi-star-outline"></i>
-													<i className="item-rating pointer zmdi zmdi-star-outline"></i>
-													<i className="item-rating pointer zmdi zmdi-star-outline"></i>
-													<i className="item-rating pointer zmdi zmdi-star-outline"></i>
-													<input className="dis-none" type="number" name="rating"/>
-												</span>
+							
 											</div>
 
 											<div className="row p-b-25">
 												<div className="col-12 p-b-5">
-													<label className="stext-102 cl3" for="review">Your review</label>
-													<textarea className="size-110 bor8 stext-102 cl2 p-lr-20 p-tb-10" id="review" name="review"></textarea>
+													<label className="stext-102 cl3" for="review" style={{marginLeft:"10px",marginTop:"-50px"}}>   Your review</label>
+													<textarea className="size-110 bor8 stext-102 cl2 p-lr-20 p-tb-10" id="review" name="feedback" onChange={(e)=>{setFeedback(e.target.value)}} required></textarea>
 												</div>
 
-												<div className="col-sm-6 p-b-5">
-													<label className="stext-102 cl3" for="name">Name</label>
-													<input className="size-111 bor8 stext-102 cl2 p-lr-20" id="name" type="text" name="name"/>
-												</div>
-
-												<div className="col-sm-6 p-b-5">
-													<label className="stext-102 cl3" for="email">Email</label>
-													<input className="size-111 bor8 stext-102 cl2 p-lr-20" id="email" type="text" name="email"/>
-												</div>
+												
 											</div>
 
-											<button className="flex-c-m stext-101 cl0 size-112 bg7 bor11 hov-btn3 p-lr-15 trans-04 m-b-10">
+											<button type='submit' className="flex-c-m stext-101 cl0 size-112 bg7 bor11 hov-btn3 p-lr-15 trans-04 m-b-10">
 												Submit
 											</button>
-										</form>
+										</form></>:<>
+										
+										<p className="stext-102 cl6">
+												Buy Book and add Feedback
+											</p>
+										</>}
+										</>
+										}
 									</div>
 								</div>
 							</div>
-						</div> */}
+						</div>
 					</div>
 				</div>
 			</div>
@@ -418,11 +506,11 @@ function ProductDetails() {
 
 		<div className="bg6 flex-c-m flex-w size-302 m-t-73 p-tb-15">
 			<span className="stext-107 cl6 p-lr-25">
-				SKU: JAK-01
+				Language: {temp[0]?.language}
 			</span>
 
 			<span className="stext-107 cl6 p-lr-25">
-				Categories: Jacket, Men
+				Categories: {temp[0]?.category}
 			</span>
 		</div>
 	</section>

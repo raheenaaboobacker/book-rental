@@ -54,6 +54,9 @@ export default function VolunteerReg() {
     }
     else if(contacts.pass===""){
       setErrorpass(true)
+    }
+    else if(contacts.pass!==contacts.password){
+      setErrorpass(true)
     }else {
       console.log(contacts);
       axios.post("http://localhost:5000/register/volunteer-register",contacts)

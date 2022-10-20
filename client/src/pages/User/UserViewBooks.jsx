@@ -9,16 +9,18 @@ import Modal from 'react-bootstrap/Modal';
 
 
 export default function UserViewBooks() {
+	const navigate=useNavigate()
     const [show,setShow]=useState(false)
     const [temp,setTemp]=useState([])
 
     const [product,setProduct]=useState([])
     const [token,setToken]=useState(localStorage.getItem("token"))
-    const [arr,setArr]=useState([])
+    const [arr,setArr]=useState(null)
     const [newdate,setNewdate]=useState("")
     const [file,setFile]=useState("")
 
     useEffect(() => {
+		
         fetch("http://localhost:5000/book/view-user-books", {
             method: 'GET',
             headers: {
@@ -77,7 +79,7 @@ export default function UserViewBooks() {
       console.log(result.data);
       if(result.data.success==true){
         swal(result.data.message)
-        // navigate('/admindashboard')
+        navigate('/userViewBook')
       }
     
     })
@@ -98,41 +100,55 @@ export default function UserViewBooks() {
                         <div className="col-lg-11 col-xl-7  m-b-50">
                             <div className="m-l-25 m-r--101 m-lr-0-xl">
                                 <div className="wrap-table-shopping-cart">
-                                    <table className="table-shopping-cart">
-                                        <tr className="table_head">
-                                            <th className="column-1">Book </th>
-                                            <th className="column-2"></th>
-                                            <th className="column-3">Price</th>
-                                            <th className="column-4">Author</th>
-                                            <th className="column-5">Language</th>
-                                            <th className="column-6">Publisher</th>
-                                            <th className="column-6">Price for Book Rent</th>
-                                        </tr>
-                                        {arr && arr.map((data, i) => (
-
-                                            <tr className="table_row" key={i}>
-                                                <td className="column-1">
-                                                    <div className="how-itemcart1">
-                                                        <img src={`./upload/${data?.bookdata?.image}`} alt="IMG" />
-                                                    </div>
-                                                </td>
-                                               
-                                                <td className="column-2">{data?.bookdata?.title}</td>
-                                                <td className="column-3">₹ {data?.bookdata?.price}</td>
-                                                <td className="column-8">{data?.bookdata?.author}</td>
-                                                <td className="column-5">{data?.bookdata?.language}</td>
-                                                <td className="column-5">{data?.bookdata?.publisher}</td>
-                                                {data?.bookdata?.pdf==="null"?<>
-                                                {/* <td><input type='file'  onChange={(e)=>{setFile(e.target.files[0]);setProduct({...product,id:data?.bookdata?._id}); setProduct({...product,pdf:e.target.files[0].name});}}/></td> */}
-                                                <td  className="column-5"><button type='button' style={{widh:"100px"}} onClick={()=>{handleClickOpen(data?.bookdata?._id)}}  className="flex-c-m stext-101 cl0 size-10 bg1 bor1 hov-btn1 p-lr-15 ">
-											Add Pdf
-										</button></td></>:<td className="column-5">{data?.bookdata?.pdfprice}</td>}
-                                              
-
+                                {
+                                            arr===null?<div style={{width:"600px", height:"200px", margin:"auto"}}><div style={{textAlign:"center",fontSize:15}}  className="alert alert-primary" role="alert">
+                                            No Book Added!
+                                          </div> </div>:
+                                            <table className="table-shopping-cart">
+                                            <tr className="table_head">
+                                                <th className="column-1">Book </th>
+                                                <th className="column-2"></th>
+                                                <th className="column-3">Price</th>
+                                                <th className="column-4">Author</th>
+                                                <th className="column-4">Language</th>
+                                                <th className="column-4">Publisher</th>
+                                                <th className="column-4">Status</th>
                                             </tr>
-                                        ))}
-
-                                    </table>
+                                            {arr && arr.map((data, i) => (
+    
+                                                <tr className="table_row" key={i}>
+                                                    <td className="column-1">
+                                                        <div className="how-itemcart1">
+                                                            <img src={`./upload/${data?.bookdata?.image}`} alt="IMG" />
+                                                        </div>
+                                                    </td>
+                                                   
+                                                    <td className="column-2">{data?.bookdata?.title}</td>
+                                                    <td className="column-3">₹ {data?.bookdata?.price}</td>
+                                                    <td className="column-8">{data?.bookdata?.author}</td>
+                                                    <td className="column-5">{data?.bookdata?.language}</td>
+                                                    <td className="column-5">{data?.bookdata?.publisher}</td>
+                                                    {data?.bookdata?.pdf==="null"?<>
+                                                            {/* <td><input type='file'  onChange={(e)=>{setFile(e.target.files[0]);setProduct({...product,id:data?.bookdata?._id}); setProduct({...product,pdf:e.target.files[0].name});}}/></td> */}
+                                                            <td  className="column-5"><button type='button' style={{widh:"100px"}} onClick={()=>{handleClickOpen(data?.bookdata?._id)}}  className="flex-c-m stext-101 cl0 size-10 bg1 bor1 hov-btn1 p-lr-15 ">
+                                                            Add Pdf
+                                                    </button></td></>
+                                                    :<>{data?.bookdata?.pdfstatus==="0"?<td className="column-5">Pdf Not Approved</td>:<><td className="column-5"> Pdf Approved</td></>}
+                                                    
+                                                    </>}
+                                                    {data?.bookdata?.status=="0"? 
+                                                    <td className="column-2">Book Not approved</td>:   
+                                                    <td className="column-5">
+                                                        <button type='button' style={{widh:"100px"}} onClick={()=>{navigate(`/userViewBookDetails/${data?.bookdata?._id}`)}}  className="flex-c-m stext-101 cl0 size-10 bg1 bor1 hov-btn1 p-lr-15 ">
+                                                        Order Details
+                                                        </button>
+                                                    </td>
+                                                    }
+                                                    </tr>
+                                            ))}
+    
+                                        </table>}
+                                    
                                 </div>
                             </div>
                         </div>
@@ -229,7 +245,7 @@ export default function UserViewBooks() {
 											<h6>{data.pages}</h6>									
 									</div>
 								</div>
-                                <form onSubmit={(e)=>{e.preventDefault();}}>
+                                <form onSubmit={(e)=>{e.preventDefault();addPdf(data._id)}}>
                                 <div className="flex-w flex-r-m p-b-10">
 									<div className="size-203 flex-c-m respon6">
 										Choose Pdf
@@ -253,7 +269,7 @@ export default function UserViewBooks() {
 								<div className="flex-w flex-r-m p-b-10">
 									<div className="size-204 flex-w flex-m respon6-next">
 										
-										<button   type='submit' onClick={()=>{addPdf(data._id)}} className="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 js-addcart-detail">
+										<button   type='submit'  className="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 js-addcart-detail">
 											Add Pdf
 										</button>
 										<button onClick={() => setShow(false)} className="how-pos3 hov3 trans-04 ">
@@ -262,28 +278,11 @@ export default function UserViewBooks() {
 									</div>
 								</div>
                                 </form>	
+
+								
 							</div>
 
 				
-							<div className="flex-w flex-m p-l-100 p-t-40 respon7">
-								<div className="flex-m bor9 p-r-10 m-r-11">
-									<a href="#" className="fs-14 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 js-addwish-detail tooltip100" data-tooltip="Add to Wishlist">
-										<i className="zmdi zmdi-favorite"></i>
-									</a>
-								</div>
-
-								<a href="#" className="fs-14 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 m-r-8 tooltip100" data-tooltip="Facebook">
-									<i className="fa fa-facebook"></i>
-								</a>
-
-								<a href="#" className="fs-14 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 m-r-8 tooltip100" data-tooltip="Twitter">
-									<i className="fa fa-twitter"></i>
-								</a>
-
-								<a href="#" className="fs-14 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 m-r-8 tooltip100" data-tooltip="Google Plus">
-									<i className="fa fa-google-plus"></i>
-								</a>
-							</div>
 						</div>
 					</div>
 					</>)}

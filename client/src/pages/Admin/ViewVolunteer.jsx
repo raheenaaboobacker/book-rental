@@ -7,7 +7,7 @@ import swal from 'sweetalert';
 
 export default function ViewVolunteer() {
     const [volunteer,setVolunteer]=useState([])
-    const [message, setMessage] = useState([])
+    const [message, setMessage] = useState(true)
 
 
     useEffect(() => {
@@ -19,7 +19,7 @@ export default function ViewVolunteer() {
            console.log(volunteer);
          }
        })
-       }, [])
+       }, [message])
 
 
        const approveuser=(id)=>{
@@ -29,7 +29,7 @@ export default function ViewVolunteer() {
             console.log(response);
            if(response.data.success==true){
             swal(response.data.message)
-            setMessage(response.data.message)
+            setMessage(!message)
            }
          })
        }
@@ -41,7 +41,7 @@ export default function ViewVolunteer() {
          .then(response=>{
           if(response.data.success===true){
            swal(response.data.message)
-           setMessage(response.data.message)
+           setMessage(!message)
           }
         })
       }
@@ -52,12 +52,12 @@ export default function ViewVolunteer() {
         <main className="app-content">
   <div className="app-title">
     <div>
-      <h1><i className="fa fa-dashboard" /> Dashboard</h1>
+      <h1><i className="fa fa-users" /> Volunteers</h1>
       {/* <p>A free and open source Bootstrap 4 admin template</p> */}
     </div>
     <ul className="app-breadcrumb breadcrumb">
       <li className="breadcrumb-item"><i className="fa fa-home fa-lg" /></li>
-      <li className="breadcrumb-item"><a href="#">Dashboard</a></li>
+      <li className="breadcrumb-item"><a href="#">Volunteers</a></li>
     </ul>
   </div>
   <div className='row'>

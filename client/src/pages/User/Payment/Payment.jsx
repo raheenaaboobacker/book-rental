@@ -27,9 +27,15 @@ export default function Payment() {
 
 	const submitForm=(e)=>{
 		e.preventDefault();
+		var card =  /^\(?([0-9]{14})$/;
+
 		if(contacts.name==="",contacts.phone==="",contacts.address==="",contacts.landmark==="",contacts.city==="",
 		contacts.state==""){
          alert("please fill all fields" )
+		}
+		if(!card.test(paymentdata.phone))
+		{
+			alert("Please enter a valid  account number!!",{autoClose:3000,theme:'light'})
 		}else{
 		
 			fetch("http://localhost:5000/order/orderbook", {

@@ -6,12 +6,12 @@ export default function AdminSidebar() {
     <div className="adminapp-sidebar__user">
       {/* <img className="adminapp-sidebar__user-avatar" src="https://s3.amazonaws.com/uifaces/faces/twitter/jsa/48.jpg" alt="User Image"/> */}
       <div>
-        <p className="adminapp-sidebar__user-name">Book Bae</p>
+        {/* <p className="adminapp-sidebar__user-name"><img src="/assets/images/icons/logo-01.png" alt="IMG-LOGO"/></p> */}
         <p className="adminapp-sidebar__user-designation"></p>
       </div>
     </div>
     <ul className="app-menu">
-      <li><a className="app-menu__item" href="admindashboard"><i className="app-menu__icon fa fa-dashboard"></i><span className="app-menu__label">Dashboard</span></a></li>
+      <li><a className="app-menu__item" href="/admindashboard"><i className="app-menu__icon fa fa-dashboard"></i><span className="app-menu__label">Dashboard</span></a></li>
       {/* <li className="treeview"><a className="app-menu__item" href="#" data-toggle="treeview"><i className="app-menu__icon fa fa-laptop"></i><span className="app-menu__label">UI Elements</span><i className="treeview-indicator fa fa-angle-right"></i></a>
         <ul className="treeview-menu">
           <li><a className="treeview-item" href="bootstrap-components.html"><i className="icon fa fa-circle-o"></i> Bootstrap Elements</a></li>
@@ -20,11 +20,15 @@ export default function AdminSidebar() {
           <li><a className="treeview-item" href="widgets.html"><i className="icon fa fa-circle-o"></i> Widgets</a></li>
         </ul>
       </li> */}
+      <li><a className="app-menu__item" href="/viewPublisher"><i className="app-menu__icon fa fa-pie-chart"></i><span className="app-menu__label">View Publisher</span></a></li>
       <li><a className="app-menu__item" href="/viewMessage"><i className="app-menu__icon fa fa-pie-chart"></i><span className="app-menu__label">View Message</span></a></li>
       <li><a className="app-menu__item" href="/addCategory"><i className="app-menu__icon fa fa-pie-chart"></i><span className="app-menu__label">Add Category</span></a></li>
       <li><a className="app-menu__item" href="/AdminAddBook"><i className="app-menu__icon fa fa-pie-chart"></i><span className="app-menu__label">Add Book</span></a></li>
-      {/* <li className="treeview is-expanded"><a className="app-menu__item" href="#" data-toggle="treeview"><i className="app-menu__icon fa fa-edit"></i><span className="app-menu__label">Forms</span><i className="treeview-indicator fa fa-angle-right"></i></a>
-        <ul className="treeview-menu">
+      <li><a className="app-menu__item" href="/adminViewReview"><i className="app-menu__icon fa fa-pie-chart"></i><span className="app-menu__label">View Book Review</span></a></li>
+      <li><a className="app-menu__item" href="/adminViewRequests"><i className="app-menu__icon fa fa-pie-chart"></i><span className="app-menu__label">View Order Table</span></a></li>
+      <li><a className="app-menu__item" href="/adminViewBook"><i className="app-menu__icon fa fa-pie-chart"></i><span className="app-menu__label">My Books</span></a></li>
+        
+      {/* <ul className="treeview-menu">
           <li><a className="treeview-item active" href="form-components.html"><i className="icon fa fa-circle-o"></i> Form Components</a></li>
           <li><a className="treeview-item" href="form-custom.html"><i className="icon fa fa-circle-o"></i> Custom Components</a></li>
           <li><a className="treeview-item" href="form-samples.html"><i className="icon fa fa-circle-o"></i> Form Samples</a></li>

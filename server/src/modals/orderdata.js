@@ -7,6 +7,7 @@ const orderSchema = new Schema({
     bookdata:{type:Array,required: true},
     address:{type:Object,required: true},
     date:{ type: String, required: true },
+    deliverydate:{ type: String},
     orderstatus:{ type: String, required: true }, 
 })
 

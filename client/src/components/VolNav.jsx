@@ -16,7 +16,9 @@ export default function VolNav() {
             .then((data) => {
                 console.log("Result========", data)
                 if (data.success == true) {
-                    setArr(data.data.length)
+                    setArr(data.data.filter(item=>{
+                       return item.orderstatus.includes("ordered")
+                    }))
                     console.log(arr);
                     // alert(data.message)
                 }
@@ -98,7 +100,7 @@ export default function VolNav() {
                                 <i className="zmdi zmdi-search"></i>
                             </div>
                             
-                            <a href="/volunteerViewRequest" className="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti " data-notify={!arr?0:arr}>
+                            <a href="/volunteerViewRequest" className="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti " data-notify={!arr.length?0:arr.length}>
                             
                                 <i className="zmdi zmdi-notifications-active" style={{color:"black"}}></i>
                         

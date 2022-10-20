@@ -15,11 +15,14 @@ import Carouselproduct from '../components/Carouselproduct';
 import Isotope from 'isotope-layout';
 
 function Product() {
+	let filteredOptions=[];
 	const navigate=useNavigate()
 	const token=localStorage.getItem("token")
 	let [num, setNum]= useState(1);
 	const [show,setShow]=useState(false)
     const [book, setBook] = useState([]);
+    const [allbook, setAllbook] = useState(true);
+    const [category, setCategory] = useState([]);
     const [temp,setTemp]=useState([])
     const [date,setDate]=useState([])
 	var dateObj = new Date();
@@ -143,9 +146,22 @@ function Product() {
 			 console.log(error);
    
 		   });
-	   }, [])
 
-	   
+		   axios.get("http://localhost:5000/book/view-category")
+		   .then((response)=>{
+			  if (response.data.success == true) {
+				  console.log(response.data.data);
+				  
+				  setCategory(response.data.data)
+				  console.log(category);
+				}
+			  })
+			  .catch((error) => {
+				console.log(error);
+	  
+			  });
+	   }, [allbook])
+  
 	const handleClickOpen = (id) => {
 		console.log(id);
 		axios.get(`http://localhost:5000/book/singleitem/${id}`).then((response)=>{
@@ -219,35 +235,64 @@ function Product() {
 	}	
 	
 		} 
-	const rentPdf=(id,price)=>{
-	
-	var date1 = new Date(newdate);
-	var date2 = new Date(date);
-	  
-	var Difference_In_Time = date2.getTime() - date1.getTime();
-	  
-	var diffDays = Difference_In_Time / (1000 * 3600 * 24);
-	  
-		console.log(typeof(date));
-		console.log(newdate);
-	console.log(diffDays);
-		const data={
-	
-			id:id,
-			price:price*diffDays,
-			duedate:date
-		}
-		console.log(data);
-		navigate('/rentPayment' , {state: data})
-	
+		const rentPdf=(e)=>{
+			e.preventDefault()
+			var date1 = new Date(newdate);
+			var date2 = new Date(date);
+			console.log("date1:",date1);
+			console.log("date2",date2);
+			var Difference_In_Time = date2.getTime() - date1.getTime();
+			  
+			var diffDays = Math.floor(Difference_In_Time / (1000 * 3600 * 24));
+			  
+				
+			console.log(diffDays);
+				const data={
+			
+					id:temp[0]?._id,
+					price:temp[0]?.pdfprice*diffDays,
+					duedate:date
+				}
+				console.log(data);
+				navigate('/rentPayment' , {state: data})
+			
+			}
+console.log(book);
+
+	if(book==="No Item Found!"){
+		console.log(filteredOptions);
+	}else{
+		 filteredOptions = book
+		.filter((filterdata)=>{
+			if(filterdata.title.toLowerCase().includes(searchitem.toLowerCase())||filterdata.category.toLowerCase().includes(searchitem.toLowerCase())){
+			  return filterdata
+			}
+		  });
 	}
 
-	const filteredOptions = book
-        .filter((filterdata)=>{
-            if(filterdata.title.toLowerCase().includes(searchitem.toLowerCase())||filterdata.category.toLowerCase().includes(searchitem.toLowerCase())){
-              return filterdata
-            }
-          });
+
+	
+
+		  const viewCategory=(category)=>{
+			console.log(category);
+			axios.get(`http://localhost:5000/book/view-category-books/${category}`)
+		.then((response)=>{
+		   if (response.data.success == true) {
+			   console.log(response.data.data);
+			   
+			   setBook(response.data.data)
+			   console.log(book);
+			 }else{
+				console.log(response.data.data);
+
+			}
+		   })
+		   .catch((error) => {
+			setBook(error.response.data.message);
+   
+		   });
+		  }
+		  console.log("ssss",filteredOptions)
 		
   return (
     < >
@@ -258,33 +303,39 @@ function Product() {
 	<div className="bg0 m-t-23 p-b-140">
 		<div className="container">
 			<div className="flex-w flex-sb-m p-b-52">
-				<div className="flex-w flex-l-m filter-tope-group m-tb-10">
-					<button className="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5 how-active1" data-filter="*">
-						All Products
-					</button>
-                        {/* {filteredOptions.map(category=>(
-						<button key={category.category} className="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5" data-filter={`.${category.category}`}>
-						{category.category}
-					</button>))} */}
-					
-
-				</div>
-						<div class="bor17 of-hidden pos-relative">
+			<div class="bor17 of-hidden pos-relative">
 							{/* <input class="stext-103 cl2 plh4 size-116 p-l-28 p-r-55" type="text" name="search" placeholder="Search"/> */}
-							<input type="text" placeholder="Where Would you like to go ?" 
+							<input type="text" placeholder="Search Books" 
                                              onChange={(e)=>setSearchitem(e.target.value)} value={searchitem} name="name" required/>
 							<button class="flex-c-m size-122 ab-t-r fs-18 cl4 hov-cl1 trans-04">
 								<i class="zmdi zmdi-search"></i>
 							</button>
 						</div>
+				<div className="flex-w flex-l-m filter-tope-group m-tb-10">
+					
+					<button onClick={()=>setAllbook(!allbook)} className="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5 how-active1" data-filter="*">
+						All Products
+					</button>
+                        {category.map(category=>(
+						<button key={category.category} onClick={()=>viewCategory(category.category)} className="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5" data-filter={`.${category.category}`}>
+						{category.category}
+					</button>))}
+					
+
+				</div>
+
 			</div>
 
 			
 			<div className="row isotope-grid">
-			{filteredOptions.map((book) => 
+				{filteredOptions==""||filteredOptions===null||filteredOptions===undefined?
+				<> 
+                <div style={{width:"600px", height:"200px", margin:"auto"}}><div style={{textAlign:"center",fontSize:15}}  className="alert alert-primary" role="alert">
+                      No Book Found!
+                    </div> </div></>:<>	{filteredOptions.map((book) => 
     
 	<div   className={`col-sm-6 col-md-4 col-lg-2 p-b-35 isotope-item ${book.category}`}>
-					{/* <!-- Block2 --> */}
+					{console.log("filteredOptions==========>",filteredOptions)}
 					<div className="block2">
 						<div className="block2-pic hov-img0">
 							<img src={`./upload/${book?.image}`} alt="IMG-PRODUCT"/>
@@ -299,19 +350,19 @@ function Product() {
 								<a href={`/productDetails/${book._id}`} className="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
 								{book?.title}
 								</a>
-								{book.pdf=="null"?null:<a  >pdf available</a>}
+								{book.pdfstatus==="0"?null:<a  >pdf available</a>}
 
 								<span className="stext-105 cl3">
 								{book?.price}
 								</span>
 							</div>
 
-							<div className="block2-txt-child2 flex-r p-t-3">
-								<a href="#" className="btn-addwish-b2 dis-block pos-relative js-addwish-b2">
+							{/* <div className="block2-txt-child2 flex-r p-t-3">
+								<a href="javascript:void(0)" className="btn-addwish-b2 dis-block pos-relative js-addwish-b2">
 									<img className="icon-heart1 dis-block trans-04" src="assets/images/icons/icon-heart-01.png" alt="ICON"/>
 									<img className="icon-heart2 dis-block trans-04 ab-t-l" src="assets/images/icons/icon-heart-02.png" alt="ICON"/>
 								</a>
-							</div>
+							</div> */}
 						</div>
 					</div>
 				
@@ -338,7 +389,8 @@ function Product() {
 	
 	</div>
 	
-	)}
+	)}</>}
+		
 	
 	
 	<Modal
@@ -371,7 +423,7 @@ function Product() {
 										<div className="wrap-pic-w pos-relative">
 											<img src={`./upload/${data?.image}`} alt="IMG-PRODUCT"/>
 
-											<a className="flex-c-m size-108 how-pos1 bor0 fs-16 cl10 bg0 hov-btn3 trans-04" href="images/product-detail-01.jpg">
+											<a className="flex-c-m size-108 how-pos1 bor0 fs-16 cl10 bg0 hov-btn3 trans-04" href={`./upload/${data?.image}`}>
 												<i className="fa fa-expand"></i>
 											</a>
 										</div>
@@ -395,26 +447,13 @@ function Product() {
 							</p>
 							
 							<div className="p-t-33">
-							<div className="flex-w flex-r-m p-b-10">
-								
-{/* {console.log(PDF)}
-									<Page pageNumber={1}/>
-								</Document> */}
-									<div className="size-203 flex-c-m respon6">
-										Category
-									</div>
-
-									<div className="size-204 respon6-next">										
-											<h6>{data.category}</h6>									
-									</div>
-								</div>
-								<div className="flex-w flex-r-m p-b-10">
+						<div className="flex-w flex-r-m p-b-10">
 									<div className="size-203 flex-c-m respon6">
 										Publiser
 									</div>
 
 									<div className="size-204 respon6-next">										
-											<h6>{data.publisher}</h6>									
+											<h6>{data?.publisher}</h6>									
 									</div>
 								</div>
 								<div className="flex-w flex-r-m p-b-10">
@@ -423,7 +462,7 @@ function Product() {
 									</div>
 
 									<div className="size-204 respon6-next">										
-											<h6>{data.language}</h6>									
+											<h6>{data?.language}</h6>									
 									</div>
 								</div>
 								<div className="flex-w flex-r-m p-b-10">
@@ -432,20 +471,23 @@ function Product() {
 									</div>
 
 									<div className="size-204 respon6-next">										
-											<h6>{data.pages}</h6>									
+											<h6>{data?.pages}</h6>									
 									</div>
-								</div><div className="flex-w flex-r-m p-b-10">
+								</div>
+								{data?.pdfstatus==="0"?null:<>
+								<div className="flex-w flex-r-m p-b-10">
 									<div className="size-203 flex-c-m respon6">
 										price for e-book/day
 									</div>
 
 									<div className="size-204 respon6-next">										
-											<h6>{data.pdfprice}</h6>									
+											<h6>{data?.pdfprice}</h6>									
 									</div>
-								</div>
-								<div className="flex-w flex-r-m p-b-10">
-									<div className="size-204 flex-w flex-m respon6-next">
-										<div className="wrap-num-product flex-w m-r-20 m-tb-10">
+								</div></>}
+								
+							<div className="flex-w flex-r-m p-b-10">
+								<div className="size-204 flex-w flex-m respon6-next">
+								<div className="wrap-num-product flex-w m-r-20 m-tb-10">
 											<div onClick={decNum} className="btn-num-product-down cl8 hov-btn3 trans-04 flex-c-m">
 												<i className="fs-16 zmdi zmdi-minus"></i>
 											</div>
@@ -456,11 +498,26 @@ function Product() {
 												<i className="fs-16 zmdi zmdi-plus"></i>
 											</div>
 										</div>
-										<button  onClick={()=>{addToCart(data._id,data.price)}} className="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 js-addcart-detail">
-											Add to cart
-										</button>
-										{data.pdf=="null"?null:<>
-										<form onSubmit={(e)=>{e.preventDefault();}}>
+
+									<button onClick={()=>{addToCart(data._id,data.price)}} className="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 js-addcart-detail">
+										Add to cart
+									</button>
+									{/* <br/><br/><br/><br/><br/><br/><br/><br/>
+									<div className="wrap-num-product flex-w m-r-20 m-tb-10">
+										
+
+										<input className="mtext-104  txt-center " type="text" name="feedback" onChange={(e)=>{setFeedback(e.target.value)}}/>
+
+										
+									</div>
+
+									<button onClick={()=>{addFeedback(data._id)}} className="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 js-addcart-detail">
+										Add Feedback
+									</button> */}
+									<br/><br/><br/><br/><br/>
+
+								{data?.pdfstatus==="0"?null:<>
+										<form onSubmit={rentPdf}>
 
 										<div style={{marginLeft:"-90px"}} className="flex-w flex-r-m p-b-10">
 											<div className="size-203 flex-c-m respon6">
@@ -471,43 +528,41 @@ function Product() {
 											<input type="date"  name="date"  min={newdate}
                                      onChange={(e)=>{setDate(e.target.value)}} value={date}  required/>
 										
-											</div>
-										</div>
-										<button type='submit' style={{marginTop:"5px"}} onClick={()=>{rentPdf(data._id,data.pdfprice)}} className="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04">
+											
+										<button type='submit' style={{marginTop:"5px"}}  className="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 js-addcart-detail">
 											Rent ebook
 										</button>
+										</div>
+										</div>
 										</form>
-										</>}	
+										</>}
 
 										
-										<button onClick={() => setShow(false)} className="how-pos3 hov3 trans-04 ">
-										<img src="assets/images/icons/icon-close2.png" alt="CLOSE"/>
-										</button>
 										
 									</div>
-								</div>	
-							</div>
+							</div>	
+						</div>
 
 				
-							<div className="flex-w flex-m p-l-100 p-t-40 respon7">
+							{/* <div className="flex-w flex-m p-l-100 p-t-40 respon7">
 								<div className="flex-m bor9 p-r-10 m-r-11">
-									<a href="#" className="fs-14 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 js-addwish-detail tooltip100" data-tooltip="Add to Wishlist">
+									<a href="javascript:void(0)" className="fs-14 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 js-addwish-detail tooltip100" data-tooltip="Add to Wishlist">
 										<i className="zmdi zmdi-favorite"></i>
 									</a>
 								</div>
 
-								<a href="#" className="fs-14 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 m-r-8 tooltip100" data-tooltip="Facebook">
+								<a href="javascript:void(0)" className="fs-14 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 m-r-8 tooltip100" data-tooltip="Facebook">
 									<i className="fa fa-facebook"></i>
 								</a>
 
-								<a href="#" className="fs-14 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 m-r-8 tooltip100" data-tooltip="Twitter">
+								<a href="javascript:void(0)" className="fs-14 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 m-r-8 tooltip100" data-tooltip="Twitter">
 									<i className="fa fa-twitter"></i>
 								</a>
 
-								<a href="#" className="fs-14 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 m-r-8 tooltip100" data-tooltip="Google Plus">
+								<a href="javascript:void(0)" className="fs-14 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 m-r-8 tooltip100" data-tooltip="Google Plus">
 									<i className="fa fa-google-plus"></i>
 								</a>
-							</div>
+							</div> */}
 						</div>
 					</div>
 					</>)}
@@ -530,7 +585,7 @@ function Product() {
 		 </section>
 			{/* <!-- Load more --> */}
 			{/* <div className="flex-c-m flex-w w-full p-t-45">
-				<a href="#" className="flex-c-m stext-101 cl5 size-103 bg2 bor1 hov-btn1 p-lr-15 trans-04">
+				<a href="javascript:void(0)" className="flex-c-m stext-101 cl5 size-103 bg2 bor1 hov-btn1 p-lr-15 trans-04">
 					Load More
 				</a>
 			</div> */}

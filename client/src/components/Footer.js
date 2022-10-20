@@ -13,25 +13,25 @@ function Footer() {
 
 					<ul>
 						<li className="p-b-10">
-							<a href="#" className="stext-107 cl7 hov-cl1 trans-04">
+							<a href="javascript:void(0)" className="stext-107 cl7 hov-cl1 trans-04">
 								Noval
 							</a>
 						</li>
 
 						<li className="p-b-10">
-							<a href="#" className="stext-107 cl7 hov-cl1 trans-04">
+							<a href="javascript:void(0)" className="stext-107 cl7 hov-cl1 trans-04">
 								Poetry
 							</a>
 						</li>
 
 						<li className="p-b-10">
-							<a href="#" className="stext-107 cl7 hov-cl1 trans-04">
+							<a href="javascript:void(0)" className="stext-107 cl7 hov-cl1 trans-04">
 								Short Story
 							</a>
 						</li>
 
 						<li className="p-b-10">
-							<a href="#" className="stext-107 cl7 hov-cl1 trans-04">
+							<a href="javascript:void(0)" className="stext-107 cl7 hov-cl1 trans-04">
 								Fiction
 							</a>
 						</li>
@@ -45,25 +45,25 @@ function Footer() {
 
 					<ul>
 						<li className="p-b-10">
-							<a href="#" className="stext-107 cl7 hov-cl1 trans-04">
+							<a href="javascript:void(0)" className="stext-107 cl7 hov-cl1 trans-04">
 								Track Order
 							</a>
 						</li>
 
 						<li className="p-b-10">
-							<a href="#" className="stext-107 cl7 hov-cl1 trans-04">
+							<a href="javascript:void(0)" className="stext-107 cl7 hov-cl1 trans-04">
 								Returns 
 							</a>
 						</li>
 
 						<li className="p-b-10">
-							<a href="#" className="stext-107 cl7 hov-cl1 trans-04">
+							<a href="javascript:void(0)" className="stext-107 cl7 hov-cl1 trans-04">
 								Shipping
 							</a>
 						</li>
 
 						<li className="p-b-10">
-							<a href="#" className="stext-107 cl7 hov-cl1 trans-04">
+							<a href="javascript:void(0)" className="stext-107 cl7 hov-cl1 trans-04">
 								FAQs
 							</a>
 						</li>
@@ -80,15 +80,15 @@ function Footer() {
 					</p>
 
 					<div className="p-t-27">
-						<a href="#" className="fs-18 cl7 hov-cl1 trans-04 m-r-16">
+						<a href="javascript:void(0)" className="fs-18 cl7 hov-cl1 trans-04 m-r-16">
 							<i className="fa fa-facebook"></i>
 						</a>
 
-						<a href="#" className="fs-18 cl7 hov-cl1 trans-04 m-r-16">
+						<a href="javascript:void(0)" className="fs-18 cl7 hov-cl1 trans-04 m-r-16">
 							<i className="fa fa-instagram"></i>
 						</a>
 
-						<a href="#" className="fs-18 cl7 hov-cl1 trans-04 m-r-16">
+						<a href="javascript:void(0)" className="fs-18 cl7 hov-cl1 trans-04 m-r-16">
 							<i className="fa fa-pinterest-p"></i>
 						</a>
 					</div>
@@ -115,23 +115,23 @@ function Footer() {
 
 			<div className="p-t-40">
 				<div className="flex-c-m flex-w p-b-18">
-					<a href="#" className="m-all-1">
+					<a href="javascript:void(0)" className="m-all-1">
 						<img src="/assets/images/icons/icon-pay-01.png" alt="ICON-PAY"/>
 					</a>
 
-					<a href="#" className="m-all-1">
+					<a href="javascript:void(0)" className="m-all-1">
 						<img src="/assets/images/icons/icon-pay-02.png" alt="ICON-PAY"/>
 					</a>
 
-					<a href="#" className="m-all-1">
+					<a href="javascript:void(0)" className="m-all-1">
 						<img src="/assets/images/icons/icon-pay-03.png" alt="ICON-PAY"/>
 					</a>
 
-					<a href="#" className="m-all-1">
+					<a href="javascript:void(0)" className="m-all-1">
 						<img src="/assets/images/icons/icon-pay-04.png" alt="ICON-PAY"/>
 					</a>
 
-					<a href="#" className="m-all-1">
+					<a href="javascript:void(0)" className="m-all-1">
 						<img src="/assets/images/icons/icon-pay-05.png" alt="ICON-PAY"/>
 					</a>
 				</div>

@@ -62,8 +62,6 @@ function AddBook() {
         console.log("Result========",data)
         if(data.success==true)
         {
-          
-    
             alert(data.message)
             
             navigate('/userViewBook')
@@ -127,7 +125,7 @@ function AddBook() {
 						</div>
                         <div className="bor8 m-b-20 how-pos4-parent">
                         <select className="stext-111 cl2 plh3 size-116 p-l-62 p-r-30" type="text" name="language" placeholder="Choose language"
-                              onChange={handleInputChange} value={bookdata.category} >
+                              onChange={handleInputChange} value={bookdata.language} >
                             <option defaultValue>Choose Language</option>
                             
                             <option value="Malayalam">Malayalam</option>

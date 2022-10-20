@@ -22,6 +22,13 @@ function Contact() {
 
 	  const validation=(e)=>{
 		e.preventDefault()
+		var phoneno = /^[6-9]\d{9}$/;
+
+		
+		if(!phoneno.test(contacts.phone))
+		{
+			alert("Please enter a valid  phone number!!",{autoClose:3000,theme:'light'})
+		}else{
 		axios.post("http://localhost:5000/register/add-message",contacts)
 		.then((response) => {
 			console.log("Result========",response)
@@ -37,6 +44,7 @@ function Contact() {
 	 }).catch((err)=>{
 	  swal(err.response.data.message);
 	 })
+	}
 	  }
   return (
     <>

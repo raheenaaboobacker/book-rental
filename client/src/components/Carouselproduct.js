@@ -19,12 +19,24 @@ function SampleNextArrow(props) {
 }
 
 function Carouselproduct() {
+
 	const navigate=useNavigate()
 	const [book, setBook] = useState([]);
 	const token=localStorage.getItem("token")
 	let [num, setNum]= useState(1);
 	const [show,setShow]=useState(false)
 	const [temp,setTemp]=useState([])
+	var dateObj = new Date();
+    var month = dateObj.getUTCMonth() + 1;
+	console.log(month);
+    var day = dateObj.getUTCDate();
+    var year = dateObj.getUTCFullYear();
+	if(month < 10)
+	month = '0' + month.toString();
+    var newdate = year + "-" + month + "-" + day;
+    console.log(newdate);
+	const [date,setDate]=useState([])
+
 
   const settings = {
     dots: true,
@@ -165,6 +177,27 @@ const addToCart=(id,price)=>{
 }	
 
 } 
+const rentPdf=(id,price)=>{
+	
+	var date1 = new Date(newdate);
+	var date2 = new Date(date);
+	  
+	var Difference_In_Time = date2.getTime() - date1.getTime();
+	  
+	var diffDays = Math.floor(Difference_In_Time / (1000 * 3600 * 24));
+	  
+		console.log(typeof(date));
+	console.log(diffDays);
+		const data={
+	
+			id:id,
+			price:price*diffDays,
+			duedate:date
+		}
+		console.log(data);
+		navigate('/rentPayment' , {state: data})
+	
+	}
 
 
   return (
@@ -188,24 +221,27 @@ const addToCart=(id,price)=>{
 								<a href={`/productDetails/${book._id}`} className="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
 								{book?.title}
 								</a>
+								{book.pdfstatus==="0"?null:<a  >pdf available</a>}
 
 								<span className="stext-105 cl3">
 								{book?.price}
 								</span>
 							</div>
-
+{/* 
 							<div className="block2-txt-child2 flex-r p-t-3">
 								<a href="#" className="btn-addwish-b2 dis-block pos-relative js-addwish-b2">
 									<img className="icon-heart1 dis-block trans-04" src="assets/images/icons/icon-heart-01.png" alt="ICON"/>
 									<img className="icon-heart2 dis-block trans-04 ab-t-l" src="assets/images/icons/icon-heart-02.png" alt="ICON"/>
 								</a>
-							</div>
+							</div> */}
 						</div>
 			</div>
 		</div>
 	
 	)}
-<Modal
+
+        </Slider>
+		<Modal
         show={show}
 		size="lg"
         onHide={() => setShow(false)}
@@ -223,7 +259,7 @@ const addToCart=(id,price)=>{
 	  <img src="assets/images/icons/icon-close2.png" alt="CLOSE"/>
   </button> */}
   
-		<div className="bg0 p-t-175 p-b-50 p-lr-15-lg how-pos3-parent">
+		<div className="bg0 p-t-60 p-b-30 p-lr-15-lg how-pos3-parent">
         {/* <Modal.Body style={{width:"800px"}}> */}
 		<div className="row">
 			{temp?.map(data=><>
@@ -259,6 +295,19 @@ const addToCart=(id,price)=>{
 							</p>
 							
 							<div className="p-t-33">
+							<div className="flex-w flex-r-m p-b-10">
+								
+{/* {console.log(PDF)}
+									<Page pageNumber={1}/>
+								</Document> */}
+									<div className="size-203 flex-c-m respon6">
+										Category
+									</div>
+
+									<div className="size-204 respon6-next">										
+											<h6>{data.category}</h6>									
+									</div>
+								</div>
 								<div className="flex-w flex-r-m p-b-10">
 									<div className="size-203 flex-c-m respon6">
 										Publiser
@@ -286,6 +335,17 @@ const addToCart=(id,price)=>{
 											<h6>{data.pages}</h6>									
 									</div>
 								</div>
+								{data.pdfstatus==="0"?null:
+								<><div className="flex-w flex-r-m p-b-10">
+									<div className="size-203 flex-c-m respon6">
+										price for e-book/day
+									</div>
+
+									<div className="size-204 respon6-next">										
+											<h6>{data.pdfprice}</h6>									
+									</div>
+								</div></>}
+								
 								<div className="flex-w flex-r-m p-b-10">
 									<div className="size-204 flex-w flex-m respon6-next">
 										<div className="wrap-num-product flex-w m-r-20 m-tb-10">
@@ -299,37 +359,58 @@ const addToCart=(id,price)=>{
 												<i className="fs-16 zmdi zmdi-plus"></i>
 											</div>
 										</div>
-
-										<button onClick={()=>{addToCart(data._id,data.price)}} className="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 js-addcart-detail">
+										<button  onClick={()=>{addToCart(data._id,data.price)}} className="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 js-addcart-detail">
 											Add to cart
 										</button>
+										{data.pdfstatus==="0"?null:<>
+										<form onSubmit={(e)=>{e.preventDefault();}}>
+
+										<div style={{marginLeft:"-90px"}} className="flex-w flex-r-m p-b-10">
+											<div className="size-203 flex-c-m respon6">
+												Due date of ebook
+											</div>
+
+											<div className="size-204 respon6-next">										
+											<input type="date"  name="date"  min={newdate}
+                                     onChange={(e)=>{setDate(e.target.value)}} value={date}  required/>
+										
+											</div>
+										</div>
+										<button type='submit' style={{marginTop:"5px"}} onClick={()=>{rentPdf(data._id,data.pdfprice)}} className="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04">
+											Rent ebook
+										</button>
+										</form>
+										</>}	
+
+										
 										<button onClick={() => setShow(false)} className="how-pos3 hov3 trans-04 ">
 										<img src="assets/images/icons/icon-close2.png" alt="CLOSE"/>
 										</button>
+										
 									</div>
 								</div>	
 							</div>
 
 				
-							<div className="flex-w flex-m p-l-100 p-t-40 respon7">
+							{/* <div className="flex-w flex-m p-l-100 p-t-40 respon7">
 								<div className="flex-m bor9 p-r-10 m-r-11">
-									<a href="#" className="fs-14 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 js-addwish-detail tooltip100" data-tooltip="Add to Wishlist">
+									<a href="javascript:void(0)" className="fs-14 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 js-addwish-detail tooltip100" data-tooltip="Add to Wishlist">
 										<i className="zmdi zmdi-favorite"></i>
 									</a>
 								</div>
 
-								<a href="#" className="fs-14 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 m-r-8 tooltip100" data-tooltip="Facebook">
+								<a href="javascript:void(0)" className="fs-14 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 m-r-8 tooltip100" data-tooltip="Facebook">
 									<i className="fa fa-facebook"></i>
 								</a>
 
-								<a href="#" className="fs-14 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 m-r-8 tooltip100" data-tooltip="Twitter">
+								<a href="javascript:void(0)" className="fs-14 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 m-r-8 tooltip100" data-tooltip="Twitter">
 									<i className="fa fa-twitter"></i>
 								</a>
 
-								<a href="#" className="fs-14 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 m-r-8 tooltip100" data-tooltip="Google Plus">
+								<a href="javascript:void(0)" className="fs-14 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 m-r-8 tooltip100" data-tooltip="Google Plus">
 									<i className="fa fa-google-plus"></i>
 								</a>
-							</div>
+							</div> */}
 						</div>
 					</div>
 					</>)}
@@ -338,8 +419,6 @@ const addToCart=(id,price)=>{
 			</div> 	
         </Modal.Body>
       </Modal>
-        </Slider>
-       
       </div>
   )
 }

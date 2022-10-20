@@ -13,7 +13,7 @@ export default function AdminNav() {
 	
 	}
   return (
-    <header className="app-header"><a className="app-header__logo" href="admindashboard">Book Bae</a>
+    <header className="app-header"><a className="app-header__logo" href="/admindashboard"><img src="/assets/images/icons/logo-02.png" alt="IMG-LOGO"/></a>
       <ul className="app-nav">
         <li className="app-search">
         <li><a className="dropdown-item" onClick={logout}><i className="fa fa-sign-out fa-lg"></i> Logout</a></li>

@@ -7,7 +7,7 @@ const bookRouter = require('./src/routes/bookRouter');
 const cartRouter = require('./src/routes/cartRouter');
 const orderRouter = require('./src/routes/orderRouter');
 const adminRouter = require('./src/routes/adminRouter');
-// const complaintRouter = require('./src/routes/complaintRoutes');
+const feedbackRouter = require('./src/routes/FeedbackRouter');
 
 const port = 5000;
  
@@ -21,7 +21,7 @@ app.use('/book',bookRouter);
 app.use('/cart',cartRouter);
 app.use('/order',orderRouter);
 app.use('/admin',adminRouter);
-// app.use('/api/complaint/',complaintRouter);
+app.use('/feedback',feedbackRouter);
 
 
 app.listen(port,function(){

@@ -31,6 +31,8 @@ function Register() {
     }
     const vaidation=(e)=>{
         e.preventDefault();
+        var phoneno = /^[6-9]\d{9}$/;
+
         setErroruname(false)
         setErroremail(false)
         setErrormobile(false)
@@ -43,7 +45,7 @@ function Register() {
       else if(contacts.email===""){
         setErroremail(true)
       }
-      else if(contacts.mobile===""){
+      else if(!phoneno.test(contacts.mobile)){
         setErrormobile(true)
       }
       else if(contacts.city===""){
@@ -54,7 +56,11 @@ function Register() {
       }
       else if(contacts.pass===""){
         setErrorpass(true)
-      }else {
+      }
+      else if(contacts.pass!==contacts.password){
+        setErrorpass(true)
+      }
+      else {
         console.log(contacts);
         axios.post("http://localhost:5000/register/user-register",contacts)
       .then((response) => {
@@ -103,7 +109,7 @@ function Register() {
                         <div className="form-group">
                             <label htmlFor="email"><i className="zmdi zmdi-phone"></i></label>
                             <input type="number" name="mobile" id="mobile" placeholder="Your Contact No" value={contacts.mobile} onChange={handleInputChange}/>
-                            {errormobile?<span className='errormsg'>Please Enter Phone Number</span>:null}
+                            {errormobile?<span className='errormsg'>Please Enter Valid Phone Number</span>:null}
                         </div>
                         <div className="form-group">
                             <label htmlFor="city"><i className="zmdi zmdi-pin"></i></label>
@@ -118,11 +124,13 @@ function Register() {
                         <div className="form-group">
                             <label htmlFor="re-pass"><i className="zmdi zmdi-lock-outline"></i></label>
                             <input type="password" name="pass"  placeholder="Repeat your password" value={contacts.pass} onChange={handleInputChange}/>
-                            {errorpass?<span className='errormsg'>Please Enter confirm password</span>:null}
+                            {errorpass?<span className='errormsg'>Please Enter  confirm password</span>:null}
                         </div>
                         <a href="/login" className="signup-image-link">I am already member</a>
                         <br/><br/>
                         <a href="/volunteerReg" className="signup-image-link">Are You A Volunteer?</a>
+                        <br/><br/>
+                        <a href="/publisherRegister" className="signup-image-link">Are You A Publisher?</a>
                         <div className="form-group form-button">
                             
                             <input type="submit"  className="form-submit"/>

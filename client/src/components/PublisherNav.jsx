@@ -39,48 +39,40 @@ export default function PublisherNav() {
                         </a>
     
                         {/* <!-- Menu desktop --> */}
-                        {/* <div className="menu-desktop">
+                        <div className="menu-desktop">
                             <ul className="main-menu">
                                 <li>
-                                    <a href="/">Home</a>
-                                    <ul className="sub-menu">
-                                        <li><a href="/">Homepage </a></li>
-                                    </ul>
+                                    <a href="/publisherDashboard">Home</a>
+                                   
                                 </li>
                                 
-                                <li>{!token?null:<a href='/addBook'>Add Book</a>}</li>
+                                <li><a href='/paddBook'>Add Book</a></li>
     
     
-                                <li className="label1" data-label1="hot">
-                                    <a href="#">Features</a>
-                                </li>
+                               
     
                                 <li>
-                                    <a href="/register">Register</a>
+                                    <a href="/PublisherBook">My Books</a>
                                 </li>
     
-                                <li>
-                                    {!token?null:<a href='/userViewBook'>Added Books</a>}
-                                </li>
+                                
     
-                                <li>
-                                    {!token?<a href="/login">login</a>:<a onClick={logout}>Logout</a>}
-                                </li>
+                                
                                 
                             </ul>
-                        </div>	 */}
+                        </div>	
     
                         {/* <!-- Icon header --> */}
                         <div className="wrap-icon-header flex-w flex-r-m">
-                            <div className="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 js-show-modal-search">
+                            {/* <div className="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 js-show-modal-search">
                                 <i className="zmdi zmdi-search"></i>
-                            </div>
-                            
+                            </div> */}
+{/*                             
                             <a href="/volunteerViewRequest" className="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti " data-notify={!arr?0:arr}>
                             
                                 <i className="zmdi zmdi-notifications-active" style={{color:"black"}}></i>
                         
-                            </a>
+                            </a> */}
 
                             <div className="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 js-show-modal-search">
                             <a onClick={logout}>Logout</a>
@@ -99,16 +91,16 @@ export default function PublisherNav() {
     
                 {/* <!-- Icon header --> */}
                 <div className="wrap-icon-header flex-w flex-r-m m-r-15">
-                    <div className="icon-header-item cl2 hov-cl1 trans-04 p-r-11 js-show-modal-search">
+                    {/* <div className="icon-header-item cl2 hov-cl1 trans-04 p-r-11 js-show-modal-search">
                         <i className="zmdi zmdi-search"></i>
-                    </div>
+                    </div> */}
                     <div className="icon-header-item cl2 hov-cl1 trans-04 p-r-11 js-show-modal-search">
                     <a onClick={logout}>Logout</a>
                     </div>
-                    <div href="/volunteerViewRequest" className="icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10 icon-header-noti js-show-cart" data-notify="2">
+                    {/* <div href="/volunteerViewRequest" className="icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10 icon-header-noti js-show-cart" data-notify="2">
                         <i className="zmdi zmdi-notifications-active"></i>
                     </div>
-                  
+                   */}
                 </div>
     
                 {/* <!-- Button show menu --> */}
@@ -120,7 +112,7 @@ export default function PublisherNav() {
             </div>
             
             {/* <!-- Menu Mobile --> */}
-            {/* <div className="menu-mobile">
+            <div className="menu-mobile">
                 
     
                 <ul className="main-menu-m">
@@ -141,16 +133,10 @@ export default function PublisherNav() {
                         <a href="#" className="label1 rs1" data-label1="hot">Features</a>
                     </li>
     
-                    <li>
-                        <a href="#">Blog</a>
-                    </li>
-    
-                    <li>
-                        <a href="#">About</a>
-                    </li>
+                
     
                 </ul>
-            </div> */}
+            </div>
     
             {/* <!-- Modal Search --> */}
             <div className="modal-search-header flex-c-m trans-04 js-hide-modal-search" id='exampleModalCenter'>
@@ -159,12 +145,7 @@ export default function PublisherNav() {
                         <img src="/assets/images/icons/icon-close2.png" alt="CLOSE"/>
                     </button>
     
-                    <form className="wrap-search-header flex-w p-l-15">
-                        <button className="flex-c-m trans-04"  >
-                            <i className="zmdi zmdi-search"></i>
-                        </button>
-                        <input className="plh3" type="text" name="search" placeholder="Search..." onChange={addvalue} value={searchitem}/>
-                    </form>
+                    
                 </div>
             </div>
         </header>

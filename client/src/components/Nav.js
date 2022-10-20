@@ -4,12 +4,15 @@ import { Link ,useNavigate} from 'react-router-dom';
 function Nav() {
 	const navigate=useNavigate()
 	const [token,setToken]=useState(localStorage.getItem("token"));
+	const [role,setRole]=useState(localStorage.getItem("role"));
 	const [count,setCount]=useState("")
 	const [cartdata, setCartdata] = useState([])
     const [total,setTotal]=useState(0)
 	const [searchitem,setSearchitem]=useState("")
 
 useEffect(() => {
+	console.log("role======>",role);
+
 	if(token){
 		fetch('http://localhost:5000/cart/viewCartItem', {
 		method: 'GET',
@@ -22,15 +25,15 @@ useEffect(() => {
 		console.log("Result========", data)
 		if (data.success == true) {
 			setCartdata(data.data)
-			console.log(cartdata);
+			// console.log(cartdata);
 			const cartcount=data.data.length;
 			const newTotal = cartdata.reduce((total, cartItem) => {
 				return total + cartItem.qty * cartItem.price;
 			  }, 0);
 			  setTotal(newTotal);
-			console.log(cartcount);
+			// console.log(cartcount);
 			setCount(cartcount)
-			console.log(count);
+			console.log("role======>",role);
 			// setCartdata(data.data)
 			// console.log(cartdata);
 			// const newTotal = cartdata.reduce((total, cartItem) => {
@@ -46,8 +49,9 @@ useEffect(() => {
 	{
 		localStorage.clear();
 		window.sessionStorage.clear();
-		window.location.reload();
 		navigate("/")
+		window.location.reload();
+
 	
 	}
 	const addvalue=(e)=>{
@@ -84,11 +88,11 @@ useEffect(() => {
 								</ul>
 							</li>
 							<li>
-								<a href="/">Book</a>
+								<a >Book</a>
 								<ul className="sub-menu">
-								<li>{!token?null:<a href='/addBook'>Add Book</a>}</li>
-								{!token?null:<a href='/userViewBook'>My Books</a>}
-								<li><a href="/viewRentbooks">E-Book </a></li>
+								{!token || role==="1"?null:<li><a href='/addBook'> Add Book</a></li>}
+								{!token || role==="1"?null:<a href='/userViewBook'>My Books</a>}
+								{!token || role==="1"?null:<li><a href="/viewRentbooks">E-Book </a></li>}
 								</ul>
 							</li>
 							
@@ -98,13 +102,17 @@ useEffect(() => {
 								<a href="/contact">contact Us</a>
 							</li>
 
+							<li  >
+								<a href="/blog">Blog</a>
+							</li>
+
 							<li>
 								<a href="/register">Register</a>
 							</li>
 
 							
 							<li>
-								{!token?<a href="/login">login</a>:<a onClick={logout}>Logout</a>}
+								{!token || role==="1"?<a href="/login">login</a>:<a onClick={logout}>Logout</a>}
 							</li>
 							
 						</ul>
@@ -112,16 +120,16 @@ useEffect(() => {
 
 					{/* <!-- Icon header --> */}
 					<div className="wrap-icon-header flex-w flex-r-m">
-						<div className="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 js-show-modal-search">
+						{/* <div className="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 js-show-modal-search">
 							<i className="zmdi zmdi-search"></i>
-						</div>
+						</div> */}
 
 						<div className="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti js-show-cart" data-notify={!count?0:count}>
 						
 							<i className="zmdi zmdi-shopping-cart" style={{color:"black"}}></i>
 					
 						</div>
-						{!token?null:
+						{!token || role==="1"?null:
 						<a href="/userViewOrderDetails" className="dis-block icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10">
 							<i class="zmdi zmdi-case-check"></i>
 
@@ -140,14 +148,14 @@ useEffect(() => {
 
 			{/* <!-- Icon header --> */}
 			<div className="wrap-icon-header flex-w flex-r-m m-r-15">
-				<div className="icon-header-item cl2 hov-cl1 trans-04 p-r-11 js-show-modal-search">
+				{/* <div className="icon-header-item cl2 hov-cl1 trans-04 p-r-11 js-show-modal-search">
 					<i className="zmdi zmdi-search"></i>
-				</div>
+				</div> */}
 
 				<div className="icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10 icon-header-noti js-show-cart" data-notify="2">
 					<i className="zmdi zmdi-shopping-cart"></i>
 				</div>
-				{!token?null:
+				{!token || role==="1"?null:
 				<a href="/userViewOrderDetails" className="dis-block icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10">
 					<i class="zmdi zmdi-case-check"></i>
 
@@ -181,17 +189,17 @@ useEffect(() => {
 
 				<li><a href="addBook">Add Book</a></li>
 
-				<li>
+				{/* <li>
 					<a href="#" className="label1 rs1" data-label1="hot">Features</a>
-				</li>
+				</li> */}
 
 				<li>
-					<a href="#">Blog</a>
+					<a href="/blog">Blog</a>
 				</li>
 
-				<li>
+				{/* <li>
 					<a href="#">About</a>
-				</li>
+				</li> */}
 
 				<li>
 					<a href="/login">login</a>
@@ -206,12 +214,11 @@ useEffect(() => {
 					<img src="/assets/images/icons/icon-close2.png" alt="CLOSE"/>
 				</button>
 
-				<form className="wrap-search-header flex-w p-l-15">
-					<button className="flex-c-m trans-04"  >
-						<i className="zmdi zmdi-search"></i>
-					</button>
-					<input className="plh3" type="text" name="search" placeholder="Search..." onChange={addvalue} value={searchitem}/>
-				</form>
+				<button className="flex-c-m trans-04"  >
+					<i className="zmdi zmdi-search"></i>
+				</button>
+				<input className="plh3" type="text"  placeholder="Search..." onChange={(e)=>setSearchitem(e.target.value)} value={searchitem} name="name" required/>
+		
 			</div>
 		</div>
 	</header>
@@ -255,7 +262,8 @@ useEffect(() => {
 				
 				<div className="w-full">
 					<div className="header-cart-total w-full p-tb-40">
-						Total: $75.00
+						Total:₹ {cartdata?.reduce((total, cartItem) => total + cartItem.qty * cartItem.price , 0)}
+
 					</div>
 
 					<div className="header-cart-buttons flex-w w-full">

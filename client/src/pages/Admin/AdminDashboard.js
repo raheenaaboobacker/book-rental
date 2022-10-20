@@ -10,6 +10,8 @@ import AdminSidebar from '../../components/AdminSidebar';
   const [user,setUser]=useState([])
   const [book,setBook]=useState([])
   const [volunteer,setVolunteer]=useState([])
+  const [publisher,setPublisher]=useState([])
+
   let count=0
   
   
@@ -21,7 +23,7 @@ import AdminSidebar from '../../components/AdminSidebar';
       console.log(user);
     }
   })
-  axios.get("http://localhost:5000/book/view-books")
+  axios.get("http://localhost:5000/book/admin-view-books")
    .then(response=>{
     if(response.data.success==true){
       setBook(response.data.data)
@@ -35,6 +37,13 @@ import AdminSidebar from '../../components/AdminSidebar';
       console.log(volunteer);
     }
   })
+  axios.get("http://localhost:5000/admin/view-publisher")
+   .then(response=>{
+    if(response.data.success==true){
+      setPublisher(response.data.data)
+      console.log(publisher);
+    }
+  })
   }, [])
   
   return (
@@ -44,9 +53,9 @@ import AdminSidebar from '../../components/AdminSidebar';
    <main className="app-content">
   
 
-  <div className="row" style={{paddingTop:"10px"}}>
+  <div className="row" >
     
-          <div className="col-md-6 col-lg-4" onClick={() => { navigate("/viewUser") }}>
+          <div className="col-md-6 col-lg-3" onClick={() => { navigate("/viewUser") }}>
             <div className="card card-stats">
               <div className="card-header card-header-warning card-header-icon">
                 <div className="card-icon info coloured-icon">
@@ -54,13 +63,13 @@ import AdminSidebar from '../../components/AdminSidebar';
                 </div>
                 <p className="card-category">USERS</p>
                 <h3 className="card-title">{user.length}
-                  <small>Usesr</small>
+                  <small style={{fontSize:".7em"}} >Usesr</small>
                 </h3>
               </div>
 
             </div>
           </div>
-          <div className="col-md-6 col-lg-4" onClick={() => { navigate("/viewBook") }}>
+          <div className="col-md-6 col-lg-3" onClick={() => { navigate("/viewBook") }}>
             <div className="card card-stats">
               <div className="card-header card-header-warning card-header-icon">
                 <div className="card-icon info coloured-icon">
@@ -68,13 +77,13 @@ import AdminSidebar from '../../components/AdminSidebar';
                 </div>
                 <p className="card-category">BOOKS</p>
                 <h3 className="card-title">{book.length}
-                  <small>Books</small>
+                  <small  style={{fontSize:".7em"}}>Books</small>
                 </h3>
               </div>
 
             </div>
           </div>
-          <div className="col-md-6 col-lg-4" onClick={() => { navigate("/viewVolunteer") }}>
+          <div className="col-md-6 col-lg-3" onClick={() => { navigate("/viewVolunteer") }}>
             <div className="card card-stats">
               <div className="card-header card-header-warning card-header-icon">
                 <div className="card-icon info coloured-icon">
@@ -82,30 +91,33 @@ import AdminSidebar from '../../components/AdminSidebar';
                 </div>
                 <p className="card-category">Volunteer</p>
                 <h3 className="card-title">{volunteer.length}
-                  <small>VOLUNTEER</small>
+                  <small  style={{fontSize:".7em"}}>VOLUNTEER</small>
+                </h3>
+              </div>
+
+            </div>
+          </div> <div className="col-md-6 col-lg-3" onClick={() => { navigate("/viewPublisher") }}>
+            <div className="card card-stats">
+              <div className="card-header card-header-warning card-header-icon">
+                <div className="card-icon info coloured-icon">
+                  <i className="icon fa fa-users fa-3x" />
+                </div>
+                <p className="card-category">Publisher</p>
+                <h3 className="card-title">{publisher.length}
+                  <small  style={{fontSize:".7em"}}>PUBLISHER</small>
                 </h3>
               </div>
 
             </div>
           </div>
   </div>
-  <div className="row">
-    <div className="col-md-6">
-      <div className="tile">
-        <h3 className="tile-title">Monthly Sales</h3>
-        <div className="embed-responsive embed-responsive-16by9">
-          <canvas className="embed-responsive-item" id="lineChartDemo" />
-        </div>
-      </div>
+  <div className="row" >
+    <div className="col-md-12" >
+      <img  className="d-block w-100" src="assets/images/slide3.jpg"/>
+        {/* <h3 className="tile-title">Monthly Sales</h3> */}
+        
     </div>
-    <div className="col-md-6">
-      <div className="tile">
-        <h3 className="tile-title">Support Requests</h3>
-        <div className="embed-responsive embed-responsive-16by9">
-          <canvas className="embed-responsive-item" id="pieChartDemo" />
-        </div>
-      </div>
-    </div>
+   
   </div>
 </main>
 

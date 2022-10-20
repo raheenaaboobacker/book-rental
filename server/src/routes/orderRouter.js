@@ -24,7 +24,7 @@ router.post('/orderbook',checkAuth,(req, res)=>{
             address:req.body,
             date : new Date().toDateString(),
             orderstatus:"ordered",
-
+            deliverydate:null
 
         }
         console.log(item);
@@ -147,6 +147,8 @@ router.get('/view-rent-book',checkAuth, (req, res) => {
 
 })
 
+
+
 router.get('/vol-view-rent-book', (req, res) => {
   
     order.aggregate([
@@ -194,11 +196,29 @@ router.get('/vol-view-rent-book', (req, res) => {
 
 })
 
+router.post('/shipped/:id', (req, res) => {
+    const id = req.params.id
+    console.log(id);
+    order.updateOne(  { _id:id} , { $set: { orderstatus : "Shipped" } } ).then((user)=>{
+        console.log(user);
+        res.status(200).json({
+            success:true,
+            error:false,
+            message:"Shipped"
+        })
+        
+    }).catch(err => {
+        return res.status(401).json({
+            message: "Something went Wrong!"
+        })
+    })
+ 
+})
 
 router.post('/delivered/:id', (req, res) => {
     const id = req.params.id
     console.log(id);
-    order.updateOne(  { _id:id} , { $set: { orderstatus : "delivered" ,date:new Date().toDateString(),  } } ).then((user)=>{
+    order.updateOne(  { _id:id} , { $set: { orderstatus : "delivered" ,deliverydate:new Date().toDateString(),  } } ).then((user)=>{
         console.log(user);
         res.status(200).json({
             success:true,

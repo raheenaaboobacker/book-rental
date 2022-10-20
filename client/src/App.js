@@ -32,6 +32,21 @@ import VolunteerReg from './pages/volunteer/VolunteerReg';
 import ViewVolunteer from './pages/Admin/ViewVolunteer';
 import ViewOrderRequest from './pages/volunteer/ViewOrderRequest';
 import ViewMessage from './pages/Admin/ViewMessage';
+import PublisherDashboard from './pages/Publisher/PublisherDashboard';
+import Publisherreg from './pages/Publisher/Publisherreg';
+import ViewPublisher from './pages/Admin/ViewPublisher';
+import PublisherAddBook from './pages/Publisher/PublisherAddBook';
+import PViewAddedBooks from './pages/Publisher/PViewAddedBooks';
+import AdminViewEbook from './pages/Admin/AdminViewEbook';
+import ViewReview from './pages/Admin/ViewReview';
+import Blog from './pages/Blog';
+import RequestedBooks from './pages/Admin/RequestedBooks';
+import UserViewBookDetails from './pages/User/UserViewBookDetails';
+import PViewBookDetails from './pages/Publisher/PViewBookDetails';
+import AdmininViewHisBook from './pages/Admin/AdmininViewHisBook';
+import AdminViewBookDetails from './pages/Admin/AdminViewBookDetails';
+import ViewUsersBook from './pages/Admin/ViewUsersBook';
+import Details from './pages/Admin/Details';
 
 function App() {
 	useEffect(() => {
@@ -161,10 +176,24 @@ function App() {
 				<Route path='/viewVolunteer' element={<ViewVolunteer/>}/>
 				<Route path='/volunteerViewRequest' element={<ViewOrderRequest/>}/>
 				<Route path='/viewMessage' element={<ViewMessage/>}/>
+				<Route path='/publisherDashboard' element={<PublisherDashboard/>}/>
+				<Route path='/publisherRegister' element={<Publisherreg/>}/>
+				<Route path='/viewPublisher' element={<ViewPublisher/>}/>
+				<Route path='/paddBook' element={<PublisherAddBook/>}/>
+				<Route path='/PublisherBook' element={<PViewAddedBooks/>}/>
+				<Route path='/adminViewEBook/:pdf' element={<AdminViewEbook/>}/>
+				<Route path='/adminViewReview' element={<ViewReview/>}/>
+				<Route path='/blog' element={<Blog/>}/>
+				<Route path='/adminViewRequests' element={<RequestedBooks/>}/>
+				<Route path='/userViewBookDetails/:id' element={<UserViewBookDetails/>}/>
+				<Route path='/PViewBookDetails/:id' element={<PViewBookDetails/>}/>
+				<Route path='/adminViewBook' element={<AdmininViewHisBook/>}/>
+				<Route path='/AdminViewBookDetails/:id' element={<AdminViewBookDetails/>}/>
+				<Route path='/adminViewUserBooks/:id' element={<ViewUsersBook/>}/>
+				<Route path='/details/:id' element={<Details/>}/>
 
 			</Routes>
 		</BrowserRouter>
-
         
   );
 }

@@ -7,7 +7,7 @@ import axios from 'axios'
 export default function ViewOrderRequest() {
     const [token,setToken]=useState(localStorage.getItem("token"))
     const [arr,setArr]=useState([])
-    const [newdate,setNewdate]=useState("")
+    const [newdate,setNewdate]=useState(false)
     useEffect(() => {
         fetch("http://localhost:5000/order/vol-view-rent-book", {
             method: 'GET',
@@ -26,11 +26,23 @@ export default function ViewOrderRequest() {
                 }
             })
       
-    }, [])
+    }, [newdate])
+
+    const shipped=(id)=>{
+        axios.post(`http://localhost:5000/order/shipped/${id}`).then(res=>{
+            console.log(res);
+            alert(res.data.message)
+            setNewdate(!newdate)
+            window.location.reload();
+
+        })
+    }
 
     const delivered=(id)=>{
         axios.post(`http://localhost:5000/order/delivered/${id}`).then(res=>{
             console.log(res);
+            alert(res.data.message)
+            setNewdate(!newdate)
         })
     }
     
@@ -73,11 +85,17 @@ export default function ViewOrderRequest() {
                                                 <td className="column-5">₹ {data?.bookdata[0]?.price * data?.bookdata[0]?.qty}</td>
                                                 <td className="column-5">{data?.address?.name}<br/>{data?.address?.phone}<br/>{data?.address?.landmark}<br/>{data?.address?.pincode}</td>
                                                 <td className="column-5">{moment(data?.date).format("DD/MMM/YYYY")}</td>
-                                                <td className="column-5">{moment(data?.date).add(7, 'days').format("DD/MMM/YYYY")}</td>
+                                                <td className="column-5">{data.orderstatus==="delivered"?<>{moment(data?.deliverydate).format("DD/MMM/YYYY")}</>:<>{moment(data?.date).add(7, 'days').format("DD/MMM/YYYY")}</>}</td>
                                                 <td className="column-3">
-                                                    {data?.orderstatus==="delivered"?null:<button   onClick={()=>{delivered(data._id)}} className="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 js-addcart-detail">
-											Delivered
-										</button>}
+                                                    
+                                                    {data?.orderstatus==="delivered"?<>Deliverd</>:
+                                                    <>{data?.orderstatus==="ordered"?
+                                                    <button   onClick={(e)=>{e.preventDefault();shipped(data._id)}} className="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 js-addcart-detail">
+                                                        Shipped
+                                                    </button>
+                                                    :<button   onClick={(e)=>{e.preventDefault();delivered(data._id)}} className="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 js-addcart-detail">
+                                                        Delivered
+                                                    </button>}</>}
                                                 
                                                 </td>
 

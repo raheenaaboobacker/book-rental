@@ -2,6 +2,7 @@ import axios from 'axios';
 import React, { useState,useEffect } from 'react'
 import { useNavigate } from 'react-router-dom';
 import './loginstyle.css'
+import swal from 'sweetalert'
 
 function Login() {
   const navigate=useNavigate()
@@ -50,8 +51,19 @@ function Login() {
           localStorage.setItem("token",response.data.token)
           navigate("/volunteerDashboard")
         }
-      }
-    })
+
+        else if(response.data.role===4)
+        {
+          localStorage.setItem("username",response.data.name)
+          localStorage.setItem("loginId",response.data.loginId)
+          localStorage.setItem("role",response.data.role)
+          localStorage.setItem("token",response.data.token)
+          navigate("/publisherDashboard")
+        }      }
+      
+    }).catch((err)=>{
+      swal(err.response.data.message);
+      })
     // console.log("login data"+JSON.stringify(contacts)) ;
     //  navigate('/adminDashboard')
   }
@@ -72,11 +84,11 @@ function Login() {
                 <form onSubmit={validation} className="register-form" id="login-form">
                     <div className="form-group">
                         <label htmlFor="your_name"><i className="zmdi zmdi-account material-icons-name"></i></label>
-                        <input type="text" id="your_name" placeholder="Your Name" name="username" onChange={handleInputChange}/>
+                        <input type="text" id="your_name" placeholder="Your Name" name="username" onChange={handleInputChange} required/>
                     </div>
                     <div className="form-group">
                         <label htmlFor="your_pass"><i className="zmdi zmdi-lock"></i></label>
-                        <input type="password" name="password" id="your_pass" placeholder="Password" onChange={handleInputChange}/>
+                        <input type="password" name="password" id="your_pass" placeholder="Password" onChange={handleInputChange} required/>
                     </div>
                     <div className="form-group">
                         <input type="checkbox" name="remember-me" id="remember-me" className="agree-term" />

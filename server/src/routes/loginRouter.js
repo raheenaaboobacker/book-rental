@@ -4,6 +4,7 @@ const bcrypt = require('bcryptjs')
 const register = require('../modals/registerdata')
 const login=require('../modals/logindata')
 const volunteer=require('../modals/volunteerdata')
+const publisher=require('../modals/publisherData')
 
 const jwt=require('jsonwebtoken')
 
@@ -35,19 +36,28 @@ router.post('/login',(req, res)=>{
         }
        
         if(fetchedUser.role===2){
-           // console.log("role=>",fetchedUser.role);
-           const token = jwt.sign(
-            {username:fetchedUser.username, userId:fetchedUser._id, userRole:fetchedUser.role},
-                "secret_this_should_be_longer",
+            id = fetchedUser._id
+            register.findOne({login_id:id})
+            .then((registerData)=>{  
+                
+                let status = fetchedUser.status
                
-            ) 
-            res.status(200).json({
-                success:true,
-                error:false,
-                token:token,
-                loginId: fetchedUser._id,
-                name: fetchedUser.username,
-                role:fetchedUser.role
+                   
+                    const token = jwt.sign(
+                        {username:fetchedUser.username, userId:fetchedUser._id, userRole:fetchedUser.role},
+                        "secret_this_should_be_longer",
+                        { expiresIn: "6h" }
+                    )            
+                    res.status(200).json({
+                        success:true,
+                        error:false,
+                        token:token,
+                        loginId: fetchedUser._id,
+                        name: fetchedUser.username,
+                        role:fetchedUser.role
+                    })
+                
+               
             })
         }
         if(fetchedUser.role===1){
@@ -55,7 +65,7 @@ router.post('/login',(req, res)=>{
             const token = jwt.sign(
              {username:fetchedUser.username, userId:fetchedUser._id, userRole:fetchedUser.role},
                  "secret_this_should_be_longer",
-                 { expiresIn: "4h" }
+                 { expiresIn: "6h" }
              ) 
              res.status(200).json({
                  success:true,
@@ -86,7 +96,7 @@ router.post('/login',(req, res)=>{
                     const token = jwt.sign(
                         {username:fetchedUser.username, userId:fetchedUser._id, userRole:fetchedUser.role},
                         "secret_this_should_be_longer",
-                        { expiresIn: "1h" }
+                        { expiresIn: "6h" }
                     )            
                     res.status(200).json({
                         success:true,
@@ -100,15 +110,48 @@ router.post('/login',(req, res)=>{
                
             })
         }
-        
+        else if(fetchedUser.role===4){
+            id = fetchedUser._id
+            publisher.findOne({login_id:id})
+            .then((registerData)=>{  
+                
+                let status = fetchedUser.status
+                console.log("status=>",status);
+                if(status!=1){
+                    return res.status(401).json({
+                        success:false,
+                        error:true,
+                        message: "Waiting for admins approval",                        
+                    })
+                }
+                else{
+                    
+                   
+                    const token = jwt.sign(
+                        {username:fetchedUser.username, userId:fetchedUser._id, userRole:fetchedUser.role},
+                        "secret_this_should_be_longer",
+                        { expiresIn: "6h" }
+                    )            
+                    res.status(200).json({
+                        success:true,
+                        error:false,
+                        token:token,
+                        loginId: fetchedUser._id,
+                        name: registerData.name,
+                        role:fetchedUser.role
+                    })
+                }
+               
+            })
+        }
  
     })
-    // .catch(err=>{
-    //     return res.status(401).json({
-    //         message: "Auth failed",
-    //         error: err
-    //     })
-    // })
+    .catch(err=>{
+        return res.status(401).json({
+            message: "Auth failed",
+            error: err
+        })
+    })
 })
 
 module.exports = router;

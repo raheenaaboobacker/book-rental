@@ -2178,7 +2178,7 @@ input.num-product::-webkit-inner-spin-button {
 }
 
 .stext-105 {
-  /* font-family: Poppins-Regular; */
+  font-family: Poppins-Regular;
   font-size: 14px;
   line-height: 1.466667;
   letter-spacing: 1px;
@@ -2262,7 +2262,7 @@ input.num-product::-webkit-inner-spin-button {
 .stext-301 {
   font-family: Montserrat-Bold;
   font-size: 15px;
-  line-height: 1.6;
+  line-height: 1.9;
   text-transform: uppercase;
 }
 
@@ -2781,7 +2781,10 @@ input.num-product::-webkit-inner-spin-button {
   border: 1px solid #d9d9d9;
   border-radius: 2px;
 }
-
+.bor20 {
+  border: 5px solid #d3d1d1;
+  border-radius: 2px;
+}
 
 /*==================================================================
  HOW HOW HOW HOW HOW HOW HOW HOW HOW HOW HOW HOW HOW HOW HOW HOW HOW 

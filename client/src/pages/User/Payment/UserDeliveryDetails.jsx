@@ -26,9 +26,20 @@ export default function UserDeliveryDetails() {
    
     const submitForm=(e)=>{
 		e.preventDefault();
+		var phoneno = /^[6-9]\d{9}$/;
+		var pin = /^\(?([0-9]{6})$/;
+
 		if(contacts.name==="",contacts.phone==="",contacts.address==="",contacts.landmark==="",contacts.city==="",
 		contacts.state==""){
          alert("please fill all fields" )
+		}
+		else if(!phoneno.test(contacts.phone))
+		{
+			alert("Please enter a valid  phone number!!",{autoClose:3000,theme:'light'})
+		}
+		else if(!pin.test(contacts.pincode))
+		{
+			alert("Please enter a valid  pin code!!",{autoClose:3000,theme:'light'})
 		}else{
 		navigate('/payment' , {state: contacts})
 		}

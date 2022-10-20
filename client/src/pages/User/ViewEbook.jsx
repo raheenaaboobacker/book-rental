@@ -13,17 +13,14 @@ export default function ViewEbook() {
     var year = dateObj.getUTCFullYear();
 	if(month < 10)
 	month = '0' + month.toString();
+    console.log(month);
     var newdate = year + "-" + month + "-" + day;
     console.log(newdate);
-  const [show,setShow]=useState(false)
-    const [temp,setTemp]=useState([])
-
-    const [product,setProduct]=useState([])
     const [token,setToken]=useState(localStorage.getItem("token"))
-    const [arr,setArr]=useState([])
-    const [file,setFile]=useState("")
+    const [arr,setArr]=useState(null)
 
     useEffect(() => {
+        console.log(newdate)
         fetch("http://localhost:5000/order/view-rent-book", {
             method: 'GET',
             headers: {
@@ -34,6 +31,7 @@ export default function ViewEbook() {
             .then(res => res.json())
             .then((data) => {
                 console.log("Result========", data)
+                console.log(newdate);
                 if (data.success == true) {
                   {data.data.map(item=>{
                     console.log(item.duedate);
@@ -41,10 +39,17 @@ export default function ViewEbook() {
                   const fdata=data.data.filter(item=>{
                   let i = 0;
                   while ( i < data.data.length ) {
-                    if (item.duedate>newdate)
+                    if (item.duedate >= newdate)
                     return item;
                     i += 1;
                   }
+                })
+                data.data.map(data=>{
+                    console.log(data.duedate);
+                    console.log(newdate);
+                    if (data.duedate>newdate){
+                        console.log("fsdghbjfkghfjhgfdg");
+                    }
                 })
                   console.log(fdata);
                   setArr(fdata)
@@ -92,6 +97,11 @@ export default function ViewEbook() {
                             <div className="m-l-25 m-r--101 m-lr-0-xl">
                                 <div className="wrap-table-shopping-cart">
                                     <table className="table-shopping-cart">
+                                       
+                                        {arr===null?<> 
+                                    <div style={{width:"600px", height:"200px", margin:"auto"}}><div style={{textAlign:"center",fontSize:15}}  className="alert alert-primary" role="alert">
+                                        No Rent Book Found!
+                                        </div> </div></>:<>
                                         <tr className="table_head">
                                             <th className="column-1">Book </th>
                                             <th className="column-2"></th>
@@ -109,19 +119,19 @@ export default function ViewEbook() {
                                                         <img src={`./upload/${data?.BookData?.image}`} alt="IMG" />
                                                     </div>
                                                 </td>
-                                               
+                                               {console.log("maped dataaa",data)}
                                                 <td className="column-2">{data?.BookData?.title}</td>
-                                                <td className="column-3"> {data?.BookData?.author}</td>
-                                                <td className="column-8">{data?.duedate}</td>
-                                                <td className="column-3">₹ {data?.BookData?.pdfprice}</td>
-                                                <td className="column-5">₹ {data?.price}</td>
-                                                <td className="column-5"><a href={`/viewRentBook/${data?.BookData?.pdf}`} >View Book</a></td>
+                                                <td className="column-4"> {data?.BookData?.author}</td>
+                                                <td className="column-3">{data?.duedate}</td>
+                                                <td className="column-5">₹ {data?.BookData?.pdfprice}</td>
+                                                <td className="column-6">₹ {data?.price}</td>
+                                                <td className="column-6"><a href={`/viewRentBook/${data?.BookData?.pdf}`} >View Book</a></td>
                                                 
                                               
 
                                             </tr>
                                         ))}
-
+                                      </>}
                                     </table>
                                 </div>
                             </div>

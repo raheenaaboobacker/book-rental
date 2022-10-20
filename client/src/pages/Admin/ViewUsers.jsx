@@ -3,11 +3,13 @@ import AdminNav from '../../components/AdminNav'
 import AdminSidebar from '../../components/AdminSidebar'
 import axios from 'axios';
 import swal from 'sweetalert';
+import { useNavigate } from 'react-router-dom';
 
 
 export default function ViewUsers() {
+  const navigate=useNavigate()
     const [user,setUser]=useState([])
-    const [message, setMessage] = useState([])
+    const [message, setMessage] = useState(true)
 
 
 
@@ -21,7 +23,22 @@ export default function ViewUsers() {
           }
         })
       
-        }, [])
+        }, [message])
+
+
+        
+      //  const approveuser=(id)=>{
+      //   console.log(id);
+      //    axios.post(`http://localhost:5000/admin/approve/${id}`)
+      //     .then(response=>{
+      //       console.log(response);
+      //      if(response.data.success==true){
+      //       swal(response.data.message)
+      //       setMessage(!message)
+      //      }
+      //    })
+      //  }
+
 
 
         const deleteuser=(id)=>{
@@ -35,7 +52,6 @@ export default function ViewUsers() {
           })
         }
 
-
   return (
     <div>
         <AdminNav/>
@@ -43,12 +59,12 @@ export default function ViewUsers() {
         <main className="app-content">
   <div className="app-title">
     <div>
-      <h1><i className="fa fa-dashboard" /> Users</h1>
+      <h1><i className="fa fa-users" /> Users</h1>
       {/* <p>A free and open source Bootstrap 4 admin template</p> */}
     </div>
     <ul className="app-breadcrumb breadcrumb">
       <li className="breadcrumb-item"><i className="fa fa-home fa-lg" /></li>
-      <li className="breadcrumb-item"><a href="#">Dashboard</a></li>
+      <li className="breadcrumb-item"><a href="#">Users</a></li>
     </ul>
   </div>
   <div className='row'>
@@ -65,7 +81,12 @@ export default function ViewUsers() {
         <p className="card-description">Email: {item?.registerdetails[0]?.email} </p>
         <p className="card-description">Mobile No: {item?.registerdetails[0]?.mobile} </p>
         <p className="card-description">City: {item?.registerdetails[0]?.city} </p>
+        {/* {item?.status === 0 ?
+        <a onClick={()=>approveuser(item._id)} className="btn btn-primary btn-round">Approve</a>
+        :null} */}
         <a onClick={()=>deleteuser(item._id)} className="btn btn-primary btn-round">Delete</a>
+        <br/>
+        <a onClick={()=>navigate(`/adminViewUserBooks/${item._id}`)} className="btn btn-primary btn-round">View Books</a>
       </div>
     </div>
   </div>

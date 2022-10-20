@@ -26,10 +26,16 @@ export default function RentPayment() {
 
 	const submitForm=(e)=>{
 		e.preventDefault();
+		var card =  /^\(?([0-9]{14})$/;
+
 		console.log(contacts);
 		if(contacts.name==="",contacts.phone==="",contacts.address==="",contacts.landmark==="",contacts.city==="",
 		contacts.state==""){
          alert("please fill all fields" )
+		}
+		if(!card.test(paymentdata.phone))
+		{
+			alert("Please enter a valid  card number!!",{autoClose:3000,theme:'light'})
 		}else{
 		
 			fetch("http://localhost:5000/order/rent-book", {
@@ -76,34 +82,34 @@ export default function RentPayment() {
 									<div className="form-holder">
 										<label>Bank Name:</label>
 										<input type="text" placeholder="" className="form-control input-step-2" id="bank"  name="bankname"
-                                        onChange={handleInputChange} value={paymentdata.bankname}/>
+                                        onChange={handleInputChange} value={paymentdata.bankname} required/>
 										<span><i className="zmdi zmdi-search"></i></span>
 									</div>
 									<div className="form-holder">
 										<label >Branch Name:</label>
 										<input type="text" placeholder="" className="form-control input-step-2" id="branch"  name="name"
-                                        onChange={handleInputChange} value={paymentdata.name}/>
+                                        onChange={handleInputChange} value={paymentdata.name} required/>
 									</div>
 								</div>
 								<div className="form-row">
 									<div className="form-holder form-holder-2">
 										<label >Email Address:</label>
 										<input type="email" className="email input-step-2-1" id="email" placeholder="ex: example@email.com" pattern="[^@]+@[^@]+.[a-zA-Z]{2,6}" name="email"
-                                        onChange={handleInputChange} value={paymentdata.email}/>
+                                        onChange={handleInputChange} value={paymentdata.email} required/>
 									</div>
 								</div>
 								<div className="form-row">
 									<div className="form-holder form-holder-2">
 										<label for="account_name">Account Name:</label>
 										<input type="text" placeholder="Account Name" className="form-control input-step-2-1" id="account_name"  name="accname"
-                                        onChange={handleInputChange} value={paymentdata.accname}/>
+                                        onChange={handleInputChange} value={paymentdata.accname} required/>
 									</div>
 								</div>
 								<div className="form-row">
 									<div className="form-holder form-holder-2">
 										<label for="account_number">Account Number:</label>
 										<input type="text" placeholder="4576-6970-3801-2620" className="form-control input-step-2-2" id="account_number"  name="phone"
-                                        onChange={handleInputChange} value={paymentdata.phone}/>
+                                        onChange={handleInputChange} value={paymentdata.phone} required/>
 										{/* <span className="card"><i className="zmdi zmdi-card"></i></span> */}
 									</div>
 								</div>
