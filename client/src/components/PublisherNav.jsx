@@ -19,10 +19,7 @@ export default function PublisherNav() {
 	
 	}
 
-	// window.onunload = () => {
-	// 	// Clear the local storage
-	// 	window.localStorage.clear()
-	// 	}
+	
   return (
     < >
     <header className="header-v4">

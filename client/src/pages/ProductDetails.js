@@ -293,18 +293,7 @@ function ProductDetails() {
 									<button onClick={()=>{addToCart(temp[0]._id,temp[0].price)}} className="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 js-addcart-detail">
 										Add to cart
 									</button>
-									{/* <br/><br/><br/><br/><br/><br/><br/><br/>
-									<div className="wrap-num-product flex-w m-r-20 m-tb-10">
-										
-
-										<input className="mtext-104  txt-center " type="text" name="feedback" onChange={(e)=>{setFeedback(e.target.value)}}/>
-
-										
-									</div>
-
-									<button onClick={()=>{addFeedback(temp[0]._id)}} className="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 js-addcart-detail">
-										Add Feedback
-									</button> */}
+									
 									<br/><br/><br/><br/><br/>
 
 								{temp[0]?.pdfstatus==="0"?null:<>
@@ -334,25 +323,6 @@ function ProductDetails() {
 							</div>	
 						</div>
 
-						{/* <div className="flex-w flex-m p-l-100 p-t-40 respon7">
-							<div className="flex-m bor9 p-r-10 m-r-11">
-								<a href="#" className="fs-14 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 js-addwish-detail tooltip100" data-tooltip="Add to Wishlist">
-									<i className="zmdi zmdi-favorite"></i>
-								</a>
-							</div>
-
-							<a href="#" className="fs-14 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 m-r-8 tooltip100" data-tooltip="Facebook">
-								<i className="fa fa-facebook"></i>
-							</a>
-
-							<a href="#" className="fs-14 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 m-r-8 tooltip100" data-tooltip="Twitter">
-								<i className="fa fa-twitter"></i>
-							</a>
-
-							<a href="#" className="fs-14 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 m-r-8 tooltip100" data-tooltip="Google Plus">
-								<i className="fa fa-google-plus"></i>
-							</a>
-						</div> */}
 
 							
 					</div>

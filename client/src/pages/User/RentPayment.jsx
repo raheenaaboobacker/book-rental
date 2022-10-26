@@ -7,11 +7,15 @@ export default function RentPayment() {
     const location = useLocation()
 	const contacts=location.state
 	const [token,setToken]=useState(localStorage.getItem("token"))
+	const [payment,setpayment]=useState(localStorage.getItem("payment"))
 	const navigate=useNavigate();
 	const [paymentdata,setPaymentdata]=useState({})
+	
 	useEffect(() => {
-	  console.log(contacts);
-	}, [])
+		if(!payment){
+		  navigate("/")
+		}
+	  }, [])
 	
 
 	const handleInputChange=(e)=>{
@@ -52,6 +56,7 @@ export default function RentPayment() {
 					if (data.success == true) {
 
 						alert(data.message)
+						localStorage.removeItem("payment")
 						navigate("/viewRentbooks")
 					}
 					else {

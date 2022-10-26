@@ -41,6 +41,8 @@ export default function UserDeliveryDetails() {
 		{
 			alert("Please enter a valid  pin code!!",{autoClose:3000,theme:'light'})
 		}else{
+		localStorage.setItem("payment",true)
+
 		navigate('/payment' , {state: contacts})
 		}
 	}

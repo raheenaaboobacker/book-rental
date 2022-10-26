@@ -51,9 +51,8 @@ useEffect(() => {
 		window.sessionStorage.clear();
 		navigate("/")
 		window.location.reload();
-
-	
 	}
+	
 	const addvalue=(e)=>{
 		console.log(e.target.value);
 		setSearchitem(e.target.value)
@@ -112,7 +111,7 @@ useEffect(() => {
 
 							
 							<li>
-								{!token || role==="1"?<a href="/login">login</a>:<a onClick={logout}>Logout</a>}
+								{!token || role==="1"?<a href="/login">login</a>:<a style={{cursor:'pointer'}} onClick={logout}>Logout</a>}
 							</li>
 							
 						</ul>
@@ -222,8 +221,6 @@ useEffect(() => {
 			</div>
 		</div>
 	</header>
-
-
 	<div className="wrap-header-cart js-panel-cart">
 		<div className="s-full js-hide-cart"></div>
 
@@ -232,26 +229,21 @@ useEffect(() => {
 				<span className="mtext-103 cl2">
 					Your Cart
 				</span>
-
 				<div className="fs-35 lh-10 cl2 p-lr-5 pointer hov-cl1 trans-04 js-hide-cart">
 					<i className="zmdi zmdi-close"></i>
 				</div>
 			</div>
-			
 			<div className="header-cart-content flex-w js-pscroll">
 				<ul className="header-cart-wrapitem w-full">
 				{cartdata && cartdata.map((data, i) => (
-				
 					<li className="header-cart-item flex-w flex-t m-b-12">
 						<div className="header-cart-item-img">
 							<img src={`./upload/${data?.cartData?.image}`} alt="IMG"/>
 						</div>
-
 						<div className="header-cart-item-txt p-t-8">
 							<a href="#" className="header-cart-item-name m-b-18 hov-cl1 trans-04">
 							{data?.cartData?.title}
 							</a>
-
 							<span className="header-cart-item-info">
 							{data?.qty} x ₹ {data?.price}
 							</span>
@@ -259,7 +251,7 @@ useEffect(() => {
 					</li>
    				))}
 				</ul>
-				
+
 				<div className="w-full">
 					<div className="header-cart-total w-full p-tb-40">
 						Total:₹ {cartdata?.reduce((total, cartItem) => total + cartItem.qty * cartItem.price , 0)}
@@ -279,10 +271,6 @@ useEffect(() => {
 			</div>
 		</div>
 	</div>
-
-		
-	
-		
   </>
   )
 }

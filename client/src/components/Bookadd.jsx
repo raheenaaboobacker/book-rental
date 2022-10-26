@@ -148,7 +148,7 @@ export default function Bookadd() {
 							<input className="hidden stext-111 cl2 plh3 size-116 p-l-62 p-r-30" type="file" name="image"  placeholder="Upload image" 
                               required  onChange={(e)=>{setFile(e.target.files[0]); setBookdata({...bookdata,image:e.target.files[0].name})}} />
 							<i className="how-pos4 pointer-none zmdi zmdi-upload"></i>
-						</div>
+						</div><h></h>
                         {/* <div className="bor8 m-b-20 how-pos4-parent">
 							<input className="hidden stext-111 cl2 plh3 size-116 p-l-62 p-r-30" type="file" name="image"  placeholder="Upload image" 
                               required  onChange={(e)=>{setFile(e.target.files[0]); setBookdata({...bookdata,image:e.target.files[0].name})}} />

@@ -4,6 +4,7 @@ import Footer from '../../components/Footer'
 import PublisherNav from '../../components/PublisherNav'
 
 export default function PublisherAddBook() {
+  
   return (
     <div>
         <PublisherNav/>

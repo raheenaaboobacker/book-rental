@@ -195,6 +195,7 @@ const rentPdf=(id,price)=>{
 			duedate:date
 		}
 		console.log(data);
+		localStorage.setItem("payment",true)
 		navigate('/rentPayment' , {state: data})
 	
 	}

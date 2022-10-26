@@ -7,11 +7,14 @@ import {swal} from "sweetalert"
 export default function Payment() {
 	const location = useLocation()
 	const contacts=location.state
-	const [token,setToken]=useState(localStorage.getItem("token"))
-	const navigate=useNavigate();
 	const [paymentdata,setPaymentdata]=useState({})
+	const [token,setToken]=useState(localStorage.getItem("token"))
+	const [payment,setPayment]=useState(localStorage.getItem("payment"))
+	const navigate=useNavigate();
 	useEffect(() => {
-	  console.log(contacts);
+	  if(!payment){
+		navigate("/")
+	  }
 	}, [])
 	
 
@@ -52,6 +55,7 @@ export default function Payment() {
 					if (data.success == true) {
 
 						alert(data.message)
+						localStorage.removeItem("payment")
 						navigate("/userViewOrderDetails")
 					}
 					else {

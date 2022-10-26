@@ -234,29 +234,30 @@ function Product() {
 	 })
 	}	
 	
-		} 
-		const rentPdf=(e)=>{
-			e.preventDefault()
-			var date1 = new Date(newdate);
-			var date2 = new Date(date);
-			console.log("date1:",date1);
-			console.log("date2",date2);
-			var Difference_In_Time = date2.getTime() - date1.getTime();
-			  
-			var diffDays = Math.floor(Difference_In_Time / (1000 * 3600 * 24));
-			  
-				
-			console.log(diffDays);
-				const data={
+	} 
+	const rentPdf=(e)=>{
+		e.preventDefault()
+		var date1 = new Date(newdate);
+		var date2 = new Date(date);
+		console.log("date1:",date1);
+		console.log("date2",date2);
+		var Difference_In_Time = date2.getTime() - date1.getTime();
 			
-					id:temp[0]?._id,
-					price:temp[0]?.pdfprice*diffDays,
-					duedate:date
-				}
-				console.log(data);
-				navigate('/rentPayment' , {state: data})
+		var diffDays = Math.floor(Difference_In_Time / (1000 * 3600 * 24));
 			
+			
+		console.log(diffDays);
+			const data={
+		
+				id:temp[0]?._id,
+				price:temp[0]?.pdfprice*diffDays,
+				duedate:date
 			}
+			console.log(data);
+			localStorage.setItem("payment",true)
+			navigate('/rentPayment' , {state: data})
+		
+		}
 console.log(book);
 
 	if(book==="No Item Found!"){
@@ -273,40 +274,36 @@ console.log(book);
 
 	
 
-		  const viewCategory=(category)=>{
-			console.log(category);
-			axios.get(`http://localhost:5000/book/view-category-books/${category}`)
-		.then((response)=>{
-		   if (response.data.success == true) {
-			   console.log(response.data.data);
-			   
-			   setBook(response.data.data)
-			   console.log(book);
-			 }else{
-				console.log(response.data.data);
+	const viewCategory=(category)=>{
+	console.log(category);
+	axios.get(`http://localhost:5000/book/view-category-books/${category}`)
+     .then((response)=>{
+	if (response.data.success == true) {
+		console.log(response.data.data);
+		
+		setBook(response.data.data)
+		console.log(book);
+		}else{
+		console.log(response.data.data);
 
-			}
-		   })
-		   .catch((error) => {
-			setBook(error.response.data.message);
-   
-		   });
-		  }
-		  console.log("ssss",filteredOptions)
+	}
+	})
+	.catch((error) => {
+	setBook(error.response.data.message);
+
+	});
+	}
+	console.log("ssss",filteredOptions)
 		
   return (
     < >
 
-
-
-	{/* <!-- Product --> */}
 	<div className="bg0 m-t-23 p-b-140">
 		<div className="container">
 			<div className="flex-w flex-sb-m p-b-52">
 			<div class="bor17 of-hidden pos-relative">
-							{/* <input class="stext-103 cl2 plh4 size-116 p-l-28 p-r-55" type="text" name="search" placeholder="Search"/> */}
 							<input type="text" placeholder="Search Books" 
-                                             onChange={(e)=>setSearchitem(e.target.value)} value={searchitem} name="name" required/>
+								onChange={(e)=>setSearchitem(e.target.value)} value={searchitem} name="name" required/>
 							<button class="flex-c-m size-122 ab-t-r fs-18 cl4 hov-cl1 trans-04">
 								<i class="zmdi zmdi-search"></i>
 							</button>
@@ -357,35 +354,10 @@ console.log(book);
 								</span>
 							</div>
 
-							{/* <div className="block2-txt-child2 flex-r p-t-3">
-								<a href="javascript:void(0)" className="btn-addwish-b2 dis-block pos-relative js-addwish-b2">
-									<img className="icon-heart1 dis-block trans-04" src="assets/images/icons/icon-heart-01.png" alt="ICON"/>
-									<img className="icon-heart2 dis-block trans-04 ab-t-l" src="assets/images/icons/icon-heart-02.png" alt="ICON"/>
-								</a>
-							</div> */}
 						</div>
 					</div>
 				
-                {/* <!-- Modal1 --> */}
-	{/* <div   className="wrap-modal1 js-modal1 p-t-60 p-b-20" >
-		<div className="overlay-modal1 js-hide-modal1"></div>
-
-		<div className="container">
-			<div className="bg0 p-t-60 p-b-30 p-lr-15-lg how-pos3-parent">
-				<button className="how-pos3 hov3 trans-04 js-hide-modal1">
-					<img src="ass₹ets/images/icons/icon-close.png" alt="CLOSE"/>
-				</button>
-
-				<div className="row">
-					<h1>khgjhf 	 </h1>
-					
-				<h1 key={index}>{book?.title}</h1>
-				<h2>{book.price}</h2>
-				<h3>{book.desc}</h3>
-				</div>
-			</div>
-		</div>
-	</div> */}
+                
 	
 	</div>
 	
