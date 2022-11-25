@@ -6,6 +6,7 @@ import {swal} from "sweetalert"
 export default function RentPayment() {
     const location = useLocation()
 	const contacts=location.state
+	console.log(contacts);
 	const [token,setToken]=useState(localStorage.getItem("token"))
 	const [payment,setpayment]=useState(localStorage.getItem("payment"))
 	const navigate=useNavigate();

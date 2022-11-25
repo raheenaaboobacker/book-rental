@@ -82,9 +82,9 @@ export default function ViewBook() {
         <div className="col-md-6 mt-1"><img className="img-fluid img-responsive rounded product-image" src={`./upload/${item?.image}`} /></div>
         <div className="col-md-6 mt-1">
           <h5>{item?.title}</h5>
-          <div className="d-flex flex-row">
+          {/* <div className="d-flex flex-row">
             <div className="ratings mr-2"><i className="fa fa-star" /><i className="fa fa-star" /><i className="fa fa-star" /><i className="fa fa-star" /></div><span>310</span>
-          </div>
+          </div> */}
           <p className="card-text">Category: {item?.category}</p>
      <p className="card-text">Publisher: {item?.publisher}</p>
      <p className="card-text">price: {item?.price}</p>

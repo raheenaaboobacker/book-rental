@@ -31,6 +31,9 @@ function Product() {
     var year = dateObj.getUTCFullYear();
 	if(month < 10)
 	month = '0' + month.toString();
+    if(day < 10)
+	day = '0' + day.toString();
+    console.log(month);
     var newdate = year + "-" + month + "-" + day;
     console.log(newdate);
 	const [filterKey, setFilterKey] = useState('*')
@@ -244,13 +247,13 @@ function Product() {
 		var Difference_In_Time = date2.getTime() - date1.getTime();
 			
 		var diffDays = Math.floor(Difference_In_Time / (1000 * 3600 * 24));
-			
+		
 			
 		console.log(diffDays);
 			const data={
 		
 				id:temp[0]?._id,
-				price:temp[0]?.pdfprice*diffDays,
+				price:Math.floor(temp[0]?.pdfprice*diffDays),
 				duedate:date
 			}
 			console.log(data);

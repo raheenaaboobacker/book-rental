@@ -3,30 +3,29 @@ const router = express.Router();
 const checkAuth=require("../middleware/check-auth");
 const feedback=require("../modals/feedbackdata")
 const order=require("../modals/orderdata")
+const rent=require("../modals/rentbookData")
 var ObjectId = require('mongodb').ObjectID;
 
 
-router.get('/rewiewOrNot/:id/:loginId',(req, res)=>{
+router.get('/rewiewOrNot/:id/:loginId',async(req, res)=>{
     console.log("bookid=========>",req.params.id);
    console.log(req.params.loginId);
+   const rentUser=await rent.findOne({book_id:req.params.id,login_id:req.params.loginId});
+        
+        if(rentUser){
+            return res.status(200).json({
+                success: true,
+                error: false,
+                message: "Item Found!"
+            })
+        }
+   
+
    order.aggregate([
     {$unwind:"$bookdata"},
     {$match: { "bookdata.book_id" : ObjectId(req.params.id)}},
     {$match: { "bookdata.login_id": ObjectId(req.params.loginId)}},
    
-    // {
-    //     $lookup: {
-    //         from: 'login_tbs',
-    //         localField: 'login_id',
-    //         foreignField: '_id',
-    //         as: 'userData'
-    //     }
-    //     },
-    //     {
-    //         $unwind:'$userData'
-    //     },  
-    //     {$match: { "_id": req.params.loginId}},
-
        
      ])  .then(function (data) {
         console.log(data);

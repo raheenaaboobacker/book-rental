@@ -191,7 +191,7 @@ const rentPdf=(id,price)=>{
 		const data={
 	
 			id:id,
-			price:price*diffDays,
+			price:Math.floor(price*diffDays),
 			duedate:date
 		}
 		console.log(data);

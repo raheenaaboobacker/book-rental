@@ -13,6 +13,8 @@ export default function ViewEbook() {
     var year = dateObj.getUTCFullYear();
 	if(month < 10)
 	month = '0' + month.toString();
+    if(day < 10)
+	day = '0' + day.toString();
     console.log(month);
     var newdate = year + "-" + month + "-" + day;
     console.log(newdate);

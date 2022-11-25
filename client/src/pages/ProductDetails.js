@@ -13,6 +13,7 @@ function ProductDetails() {
 	const [feedback,setFeedback]=useState("")
 	const [isreview,setIsreview]=useState(false)
 	const [vfeedback,setVfeedback]=useState("")
+	const [message,setMessage]=useState(false)
 	const token=localStorage.getItem("token")
 	const loginId=localStorage.getItem("loginId")
 	let [num, setNum]= useState(1);
@@ -25,10 +26,13 @@ function ProductDetails() {
     var year = dateObj.getUTCFullYear();
 	if(month < 10)
 	month = '0' + month.toString();
+    if(day < 10)
+	day = '0' + day.toString();
+    console.log(month);
     var newdate = year + "-" + month + "-" + day;
-    console.log(newdate);
+   // console.log(newdate);
 
-	console.log(id);
+	// console.log(id);
 	useEffect(() => {
 		axios.get(`http://localhost:5000/book/singleitem/${id}`).then((response)=>{
 			// console.log("singledata"+JSON.stringify(response.data.data));
@@ -45,20 +49,20 @@ function ProductDetails() {
 			})
 		}
 	
-	}, [])
+	}, [message])
 	
 
 	const addToCart=(id,price)=>{
-		console.log(id);
-		console.log(num);
-		console.log(price);
-		console.log(temp);
+		// console.log(id);
+		// console.log(num);
+		// console.log(price);
+		// console.log(temp);
 		const cdata={
 			bookId:id,
 			qty:num,
 			price:price
 		}
-		console.log(cdata);
+		// console.log(cdata);
 		if(!token) {const el = document.createElement('div')
 		el.innerHTML = " <a href='/login'>login here</a>"
 
@@ -76,7 +80,7 @@ function ProductDetails() {
     })
     .then(res => res.json())
     .then((data) => {
-        console.log("Result========",data)
+        // console.log("Result========",data)
         if(data.success==true)
         {
           
@@ -106,16 +110,17 @@ function ProductDetails() {
 		  
 		var diffDays = Difference_In_Time / (1000 * 3600 * 24);
 		  
-			console.log(typeof(date));
+		// 	console.log(typeof(date));
 			console.log(newdate);
-		console.log(diffDays);
+		// console.log(diffDays);
 			const data={
 		
 				id:temp[0]?._id,
-				price:temp[0]?.pdfprice*diffDays,
+				price:Math.floor(temp[0]?.pdfprice*diffDays),
 				duedate:date
 			}
-			console.log(data);
+			// console.log(data);
+			localStorage.setItem("payment",true)
 			navigate('/rentPayment' , {state: data})
 		
 		}
@@ -123,7 +128,7 @@ function ProductDetails() {
 
 		const viewfeedback=()=>{
 			axios.get(`http://localhost:5000/book/view-feedback/${id}`).then((response)=>{
-			console.log("singledata"+JSON.stringify(response.data.data));
+			// console.log("singledata"+JSON.stringify(response.data.data));
 			setVfeedback(response.data.data)
 			// console.log("singledata state"+JSON.stringify(temp))
 			
@@ -162,7 +167,8 @@ function ProductDetails() {
         {
           
             swal(data.message)
-            
+            // setMessage(!message)
+			window.location.reload()
             // navigate('/cart')
         }
         else{
@@ -460,7 +466,7 @@ function ProductDetails() {
 										</form></>:<>
 										
 										<p className="stext-102 cl6">
-												Buy Book and add Feedback
+												Buy Book or rent book , then add Feedback
 											</p>
 										</>}
 										</>
