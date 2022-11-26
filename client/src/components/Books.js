@@ -200,7 +200,7 @@ console.log(diffDays);
 					{/* <!-- Block2 --> */}
 					<div className="block2">
 						<div className="block2-pic hov-img0">
-							<img src={`./upload/${book?.image}`} alt="IMG-PRODUCT"/>
+							<img src={`./upload/$aaq{book?.image}`} alt="IMG-PRODUCT"/>
 							<a onClick={()=>{handleClickOpen(book._id)}} className="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn3 p-lr-15 trans-04 js-show-modal1">
 								Quick View
 							</a>
