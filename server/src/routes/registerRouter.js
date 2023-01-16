@@ -2,10 +2,10 @@ const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs')
 const register = require('../modals/registerdata')
-const login=require('../modals/logindata')
-const volunteer=require('../modals/volunteerdata')
-const complaint=require('../modals/complaintdata')
-const publisher=require('../modals/publisherData')
+const login = require('../modals/logindata')
+const volunteer = require('../modals/volunteerdata')
+const complaint = require('../modals/complaintdata')
+const publisher = require('../modals/publisherData')
 
 
 router.post('/user-register', (req, res) => {
@@ -22,7 +22,7 @@ router.post('/user-register', (req, res) => {
             username: req.body.username,
             password: hashedPass,
             role: 2,
-            status:0
+            status: 0
 
         }
         login.findOne({ username: req.body.username })
@@ -46,8 +46,8 @@ router.post('/user-register', (req, res) => {
                                         email: req.body.email,
                                         mobile: req.body.mobile,
                                         city: req.body.city,
-                                       
-                                      
+
+
                                     }
                                     register.findOne({ mobile: registerdata.mobile })
                                         .then((mobile) => {
@@ -106,7 +106,7 @@ router.post('/volunteer-register', (req, res) => {
             username: req.body.username,
             password: hashedPass,
             role: 3,
-            status:0
+            status: 0
         }
         login.findOne({ username: req.body.username })
             .then(username => {
@@ -129,8 +129,8 @@ router.post('/volunteer-register', (req, res) => {
                                         email: req.body.email,
                                         mobile: req.body.mobile,
                                         address: req.body.address,
-                                       
-                                      
+
+
                                     }
                                     volunteer.findOne({ mobile: registerdata.mobile })
                                         .then((mobile) => {
@@ -191,7 +191,7 @@ router.post('/publisher-register', (req, res) => {
             username: req.body.username,
             password: hashedPass,
             role: 4,
-            status:0
+            status: 0
 
         }
         login.findOne({ username: req.body.username })
@@ -215,8 +215,8 @@ router.post('/publisher-register', (req, res) => {
                                         email: req.body.email,
                                         mobile: req.body.mobile,
                                         address: req.body.address,
-                                       
-                                      
+
+
                                     }
                                     publisher.findOne({ mobile: registerdata.mobile })
                                         .then((mobile) => {
@@ -260,27 +260,27 @@ router.post('/publisher-register', (req, res) => {
     })
 
 })
-router.post('/add-message',((req,res)=>{
+router.post('/add-message', ((req, res) => {
     console.log(req.body);
     var item = {
-        msg:req.body.msg,
-        phone:req.body.phone,
-        email:req.body.email,
-      
+        msg: req.body.msg,
+        phone: req.body.phone,
+        email: req.body.email,
+
     }
     console.log(item);
-    var products=complaint(item);
-    products.save().then(()=>{
+    var products = complaint(item);
+    products.save().then(() => {
         res.status(200).json({
-            success:true,
-            error:false,
-            message:'Message  Sended!'
+            success: true,
+            error: false,
+            message: 'Message  Sended!'
         })
     })
-    .catch(err=>{
-        return res.status(401).json({
-            message: "Something went wrong"
+        .catch(err => {
+            return res.status(401).json({
+                message: "Something went wrong"
+            })
         })
-    })
 }))
 module.exports = router;

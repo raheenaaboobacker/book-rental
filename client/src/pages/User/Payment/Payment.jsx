@@ -49,20 +49,20 @@ export default function Payment() {
 					'Authorization': 'Bearer ' + token
 				},
 			})
-				.then(res => res.json())
-				.then((data) => {
-					console.log("Result========", data)
-					if (data.success == true) {
+			.then(res => res.json())
+			.then((data) => {
+				console.log("Result========", data)
+				if (data.success == true) {
 
-						alert(data.message)
-						localStorage.removeItem("payment")
-						navigate("/userViewOrderDetails")
-					}
-					else {
+					alert(data.message)
+					localStorage.removeItem("payment")
+					navigate("/userViewOrderDetails")
+				}
+				else {
 
-						alert(data.message)
-					}
-				})
+					alert(data.message)
+				}
+			})
 		}
 	}
 

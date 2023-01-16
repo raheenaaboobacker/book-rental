@@ -10,4 +10,4 @@ const registerSchema= new Schema({
    
 },{strict:false});
 var registerdata=mongoose.model('register_tb',registerSchema);
-module.exports=registerdata;
+module.exports=registerdata; 

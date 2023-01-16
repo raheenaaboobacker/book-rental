@@ -96,7 +96,7 @@ export default function AdminAddBook() {
 		<div className="container">
         <form onSubmit={validation}>
 			<div className="flex-w flex-tr">
-                
+            
 				<div className="size-210 p-lr-70 p-t-55 p-b-70 p-lr-15-lg w-full-md">
 					
 					<div className="bor8 m-b-20 how-pos4-parent">
@@ -112,7 +112,7 @@ export default function AdminAddBook() {
 						</div>
                       
 
-                        <div className="bor8 m-b-20 how-pos4-parent">
+            <div className="bor8 m-b-20 how-pos4-parent">
 							<input className="stext-111 cl2 plh3 size-116 p-l-62 p-r-30" type="number" name="price" placeholder="price"
                               onChange={handleInputChange} value={bookdata.price} />
 							<i className="how-pos4 pointer-none "> ₹</i>

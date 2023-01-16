@@ -103,7 +103,7 @@ router.post('/addBook',checkAuth,((req,res)=>{
 
 router.get('/admin-view-books', (req, res) => {
     book.find()
-    .then(function (data) {
+    .then( (data)=> {
         if (data == 0) {
             return res.status(401).json({
                 success: false,
